@@ -8,5 +8,6 @@ public class Constants {
 
     public static String STATE_CONSTANT = "state",
         KEY = "key",
-        DATA = "data";
+        DATA = "data",
+        MYSQL_NOT_CONNECTED = "MySQL Not Connected";
 }
