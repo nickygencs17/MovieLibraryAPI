@@ -340,95 +340,7 @@ public class StorageService {
         }
         return build200(result);
     }
-    //16
-    @RequestMapping(value = "/order/{id}:{attribute}", method = RequestMethod.GET)
-    public Response getOrderByIdAttribute(@PathVariable String id, String attribute) {
-        JsonNode result = null;
-        try {
-            result = storageController.getOrderAttribute(id,attribute);
-        } catch (MySQLNotConnectedException e) {
-            return build500(Constants.MYSQL_NOT_CONNECTED);
 
-        } catch (ParseException e) {
-            return build500("Error parsing retrieved state");
-        }
-        if (result == null){
-            return build404();
-        }
-        return build200(result);
-    }
-
-    //17
-    @RequestMapping(value = "/customer/{id}:{attribute}", method = RequestMethod.GET)
-    public Response getCustomerByIdAttribute(@PathVariable String id, String attribute) {
-        JsonNode result = null;
-        try {
-            result = storageController.getCustomerAtrribute(id,attribute);
-        } catch (MySQLNotConnectedException e) {
-            return build500(Constants.MYSQL_NOT_CONNECTED);
-
-        } catch (ParseException e) {
-            return build500("Error parsing retrieved state");
-        }
-        if (result == null){
-            return build404();
-        }
-        return build200(result);
-    }
-
-    //18
-    @RequestMapping(value = "/movie/{id}:{attribute}", method = RequestMethod.GET)
-    public Response getMovieByIdAttribute(@PathVariable String id,String attribute) {
-        JsonNode result = null;
-        try {
-            result = storageController.getMovieAtrribute(id,attribute);
-        } catch (MySQLNotConnectedException e) {
-            return build500(Constants.MYSQL_NOT_CONNECTED);
-
-        } catch (ParseException e) {
-            return build500("Error parsing retrieved state");
-        }
-        if (result == null){
-            return build404();
-        }
-        return build200(result);
-    }
-
-    //19
-    @RequestMapping(value = "/employee/{id}:{attribute}", method = RequestMethod.GET)
-    public Response getEmployeeAttribute(@PathVariable String id,String attribute) {
-        JsonNode result = null;
-        try {
-            result = storageController.getEmployeeAttribute(id,attribute);
-        } catch (MySQLNotConnectedException e) {
-            return build500(Constants.MYSQL_NOT_CONNECTED);
-
-        } catch (ParseException e) {
-            return build500("Error parsing retrieved state");
-        }
-        if (result == null){
-            return build404();
-        }
-        return build200(result);
-    }
-
-    //20
-    @RequestMapping(value = "/actor/{id}:{attribute}", method = RequestMethod.GET)
-    public Response getActorAttribute(@PathVariable String id,String attribute) {
-        JsonNode result = null;
-        try {
-            result = storageController.getActorAtrribute(id,attribute);
-        } catch (MySQLNotConnectedException e) {
-            return build500(Constants.MYSQL_NOT_CONNECTED);
-
-        } catch (ParseException e) {
-            return build500("Error parsing retrieved state");
-        }
-        if (result == null){
-            return build404();
-        }
-        return build200(result);
-    }
 
     //21
     @RequestMapping(value = "/customer/{id}", method = RequestMethod.PATCH)
@@ -528,7 +440,6 @@ public class StorageService {
             return build404();
         }
     }
-
 
 
 

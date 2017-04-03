@@ -1,4 +1,4 @@
-package com.sbu.entity;
+package com.sbu.data;
 
 import ch.qos.logback.core.db.dialect.MySQLDialect;
 

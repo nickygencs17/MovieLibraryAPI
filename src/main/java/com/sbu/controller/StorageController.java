@@ -37,33 +37,6 @@ public class StorageController {
         return true;
     }
 
-    public JsonNode getActorAtrribute(String id, String attribute) throws MySQLNotConnectedException,ParseException {
-        JsonNode node = null;
-        return node;
-    }
-
-    public JsonNode getEmployeeAttribute(String id, String attribute) throws MySQLNotConnectedException,ParseException {
-        JsonNode node = null;
-        return node;
-    }
-
-    public JsonNode getMovieAtrribute(String id, String attribute) throws MySQLNotConnectedException,ParseException {
-        JsonNode node = null;
-        return node;
-
-    }
-
-    public JsonNode getOrderAttribute(String id, String attribute) throws MySQLNotConnectedException,ParseException  {
-        JsonNode node = null;
-        return node;
-    }
-
-    public JsonNode getCustomerAtrribute(String id, String attribute) throws MySQLNotConnectedException,ParseException {
-        JsonNode node = null;
-        return node;
-
-    }
-
     public JsonNode getActorByID(String id) throws MySQLNotConnectedException,IOException{
         JsonNode node = null;
         return node;
