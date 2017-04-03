@@ -1,4 +1,4 @@
-package com.sbu.main;
+package com.sbu.exceptions;
 
 /**
  * Created by nicholasgenco on 3/1/17.

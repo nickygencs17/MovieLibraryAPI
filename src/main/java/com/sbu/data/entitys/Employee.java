@@ -1,4 +1,4 @@
-package com.sbu.data;
+package com.sbu.data.entitys;
 
 import org.hibernate.validator.constraints.NotBlank;
 

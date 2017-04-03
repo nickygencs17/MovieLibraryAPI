@@ -1,4 +1,4 @@
-package com.sbu.data;
+package com.sbu.data.entitys;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -22,5 +22,21 @@ public class Customer extends Person {
         super(ssn, lastname, firstname, address, zipcode, telephone);
         this.rating=rating;
         this.email = email;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 }
