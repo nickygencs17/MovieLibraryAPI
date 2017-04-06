@@ -6,8 +6,15 @@ import java.util.Date;
 
 /**
  * Created by nicholasgenco on 4/3/17.
- * StartDate DATE,
+ * CREATE TABLE Employee (
+ ID EmpId,
+ SSN INTEGER,
+ StartDate DATE,
  HourlyRate INTEGER,
+ PRIMARY KEY (ID),
+ FOREIGN KEY (SSN) REFERENCES Person (SSN))
+ ON DELETE NO ACTION
+ ON UPDATE CASCADE )
  */
 public class Employee extends Person {
 
