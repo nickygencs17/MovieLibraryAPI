@@ -26,9 +26,9 @@ import java.util.logging.Logger;
 public class LoginController {
 
     private static final Logger logger = Logger.getLogger(LoginController.class.getName());
-    private static final GrantedAuthority ROLE_USER = new SimpleGrantedAuthority("ROLE_USER");
-
-    private static final GrantedAuthority ROLE_ADMIN = new SimpleGrantedAuthority("ROLE_ADMIN");
+    private static final GrantedAuthority ROLE_EMPLOYEE = new SimpleGrantedAuthority("ROLE_EMPLOYEE");
+    private static final GrantedAuthority ROLE_CUSTOMER = new SimpleGrantedAuthority("ROLE_CUSTOMER");
+    private static final GrantedAuthority ROLE_MANAGER = new SimpleGrantedAuthority("ROLE_MANAGER");
 
     private final InMemoryUserDetailsManager userManager;
 
@@ -77,7 +77,7 @@ public class LoginController {
         }
 
         List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(ROLE_USER);
+        roles.add(ROLE_CUSTOMER);
         logger.info("created user");
         return Response.status(Response.Status.CREATED).entity("User Added").build();
     }

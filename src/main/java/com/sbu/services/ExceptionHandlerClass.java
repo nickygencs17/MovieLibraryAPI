@@ -2,11 +2,10 @@ package com.sbu.services;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonpatch.JsonPatch;
-import com.github.fge.jsonpatch.JsonPatchException;
 import com.sbu.controller.StorageController;
 import com.sbu.exceptions.MySQLNotConnectedException;
 import com.sbu.exceptions.ResourceNotFoundException;
+import com.sbu.main.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +26,7 @@ import static com.sbu.services.ResponseUtil.*;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/storage")
-public class StorageService {
+public class ExceptionHandlerClass {
 
     @Autowired
     private StorageController storageController;
@@ -85,8 +82,8 @@ public class StorageService {
     @RequestMapping(value = "/movie/{movieID}/", method = RequestMethod.PATCH)
     public Response patchLatestState(@PathVariable String movieID, @RequestBody @Valid JsonNode patch) throws Exception {
 
-        checkPatchValid(patch);
-        checkMovieExists(movieID);
+        Utils.checkPatchValid(patch);
+        Utils.checkMovieExists(movieID);
 
         boolean result = StorageController.patchMovieByID(movieID, patch);
         if (result){
@@ -94,22 +91,6 @@ public class StorageService {
         }else{
             throw new ResourceNotFoundException("Movie");
         }
-    }
-
-    private void checkMovieExists(String movieID) {
-    }
-
-    public JsonPatch checkPatchValid (JsonNode node) throws JsonPatchException {
-        if (node.size() == 0){
-            throw new IllegalArgumentException("Patch cannot be empty");
-        }
-        JsonPatch patch = null;
-        try{
-            patch = JsonPatch.fromJson(node);
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Invalid JSON patch");
-        }
-        return patch;
     }
 
 

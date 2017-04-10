@@ -5,6 +5,7 @@ import javax.ws.rs.core.Response;
 /**
  * Created by silda05 on 3/21/17.
  */
+
 public class ResponseUtil {
 
     public static Response build400(String message) {
@@ -35,6 +36,7 @@ public class ResponseUtil {
 
     public static Response build201(Object obj) {
         return Response.status(Response.Status.CREATED).entity(obj).build();
+
     }
 
 
