@@ -111,13 +111,11 @@ public class ManagerService extends StorageService {
     }
 
 
-        @ResponseStatus(HttpStatus.OK)
-        @RequestMapping(value = "/mostTransactions", method = RequestMethod.GET)
-        public Response getCustomerWithMostTransactions () {
-            JsonNode info = managerController.getCustomerWithMostTransactions();
-            return build200(info);
-
-        }
-
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/mostTransactions", method = RequestMethod.GET)
+    public Response getCustomerWithMostTransactions () {
+        JsonNode info = managerController.getCustomerWithMostTransactions();
+        return build200(info);
+    }
 
 }
