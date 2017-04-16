@@ -107,8 +107,8 @@ public class CustomerService extends StorageService  {
 
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/moviesByKeywords/{csvStringOfKeywords}", method = RequestMethod.GET)
-    public Response getMovieByKeyword(@PathVariable("csvStringOfKeywords") String csvStringOfKeywords) throws Exception {
+    @RequestMapping(value = "/moviesByKeywords}", method = RequestMethod.GET)
+    public Response getMovieByKeyword(@RequestParam(value = "userID", required = false) String csvStringOfKeywords) throws Exception {
         //JSONArray slideContent
         List<String> keywordItems = Arrays.asList(csvStringOfKeywords.split("\\s*,\\s*"));
         JSONObject res = customerController.getMoviesByKeywords(keywordItems);
@@ -117,12 +117,12 @@ public class CustomerService extends StorageService  {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/moviesByActors/{csvStringOfActors}", method = RequestMethod.GET)
-    public Response getMovieByActor(@PathVariable("csvStringOfActors") String csvStringOfActors) throws Exception {
+    @RequestMapping(value = "/moviesByActors", method = RequestMethod.GET)
+    public Response getMovieByActor(@RequestParam(value = "userID", required = false) String csvStringOfActors) throws Exception {
         //JSONArray slideContent
         List<String> actors = Arrays.asList(csvStringOfActors.split("\\s*,\\s*"));
         JSONObject res = customerController.getMoviesByActors(actors);
-        return build200(res);
+        return build200(res);git
 
     }
 
