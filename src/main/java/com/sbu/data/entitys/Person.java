@@ -31,10 +31,15 @@ public class Person {
     @NotBlank(message = "telephone may not be left blank")
     public int telephone;
 
+
+    @NotBlank(message = "password cannot be blank")
+    public String password;
+
     public Person() {
     }
 
-    public Person(String ssn, String lastname, String firstname, String address, int zipcode, int telephone){
+    public Person(String ssn, String lastname,String firstname, String password, String address, int zipcode, int telephone){
+        this.password = password;
         this.ssn =ssn;
         this.lastname =lastname;
         this.firstname=firstname;
@@ -88,5 +93,13 @@ public class Person {
 
     public int getTelephone() {
         return telephone;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

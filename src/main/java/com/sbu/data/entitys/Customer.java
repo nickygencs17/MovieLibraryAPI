@@ -18,8 +18,8 @@ public class Customer extends Person {
     public Customer(){
 
     }
-    public Customer(String ssn, String lastname, String firstname, String address, int zipcode, int telephone, String email, int rating) {
-        super(ssn, lastname, firstname, address, zipcode, telephone);
+    public Customer(String ssn, String lastname,String firstname, String password, String address, int zipcode, int telephone, String email, int rating) {
+        super(ssn, lastname, firstname, password, address, zipcode, telephone);
         this.rating=rating;
         this.email = email;
     }
