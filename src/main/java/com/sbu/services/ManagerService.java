@@ -3,15 +3,23 @@ package com.sbu.services;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sbu.controller.ManagerController;
 import com.sbu.data.entitys.Employee;
+import com.sbu.exceptions.BadRequestException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.sbu.services.ResponseUtil.build200;
 import static com.sbu.services.ResponseUtil.build201;
@@ -37,10 +45,36 @@ public class ManagerService extends StorageService {
     private ManagerController managerController;
 
 
+    @Autowired
+    private final InMemoryUserDetailsManager userManager;
+
+
+    private static final GrantedAuthority ROLE_EMPLOYEE = new SimpleGrantedAuthority("ROLE_EMPLOYEE");
+    private static final GrantedAuthority ROLE_CUSTOMER = new SimpleGrantedAuthority("ROLE_CUSTOMER");
+    private static final GrantedAuthority ROLE_MANAGER = new SimpleGrantedAuthority("ROLE_MANAGER");
+
+    public ManagerService(InMemoryUserDetailsManager userManager) {
+        this.userManager = userManager;
+    }
+
+
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/employee",method = RequestMethod.POST)
-    public Response addEmployee(@RequestBody @Valid Employee employee) throws IOException, ParseException {
+    public Response addEmployee(@RequestBody @Valid Employee employee) throws IOException, ParseException, BadRequestException {
+
+
         JSONObject json = managerController.createEmployee(employee);
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if(userManager.userExists(employee.getSsn())){
+            throw new BadRequestException("SSN already exists");
+        }
+
+        List<GrantedAuthority> roles = new ArrayList<>();
+        roles.add(ROLE_EMPLOYEE);
+        userManager.createUser(new User(employee.getSsn(), employee.getPassword(), roles));
+
         return build201(json);
     }
 
@@ -111,13 +145,11 @@ public class ManagerService extends StorageService {
     }
 
 
-        @ResponseStatus(HttpStatus.OK)
-        @RequestMapping(value = "/mostTransactions", method = RequestMethod.GET)
-        public Response getCustomerWithMostTransactions () {
-            JsonNode info = managerController.getCustomerWithMostTransactions();
-            return build200(info);
-
-        }
-
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/mostTransactions", method = RequestMethod.GET)
+    public Response getCustomerWithMostTransactions () {
+        JsonNode info = managerController.getCustomerWithMostTransactions();
+        return build200(info);
+    }
 
 }
