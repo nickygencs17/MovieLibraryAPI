@@ -21,7 +21,7 @@ import static com.sbu.services.ResponseUtil.build200;
 /**
  * Created by ngenco .
  */
-@CrossOrigin
+
 @RestController
 public class LoginController {
 
@@ -38,7 +38,7 @@ public class LoginController {
         this.userManager = inMemoryUserDetailsManager;
     }
 
-    @RequestMapping(value= "login")
+    @RequestMapping(value= "/login")
     public Response login() throws UnauthorizedException {
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -59,7 +59,7 @@ public class LoginController {
     }
 
 
-    @RequestMapping(value = "logout", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
+    @RequestMapping(value = "/logout", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
     public Response logout(@RequestBody String body){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 

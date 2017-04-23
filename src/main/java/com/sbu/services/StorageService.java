@@ -5,7 +5,9 @@ import com.sbu.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.ws.rs.core.Response;
@@ -15,6 +17,8 @@ import static com.sbu.services.ResponseUtil.*;
 /**
  * Created by nicholasgenco on 4/15/17.
  */
+@RequestMapping("/storage")
+@CrossOrigin
 public class StorageService {
 
 

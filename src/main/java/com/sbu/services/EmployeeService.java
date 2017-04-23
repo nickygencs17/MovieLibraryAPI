@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.sbu.controller.EmployeeController;
 import com.sbu.data.entitys.Customer;
 import com.sbu.data.entitys.Order;
-import com.sbu.exceptions.BadRequestException;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,9 +32,9 @@ import static com.sbu.services.ResponseUtil.build201;
  (using the recommender system which uses information about the customer's
  past orders and that of nearest neighbors)
  */
-@CrossOrigin
+
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/storage/employee")
 public class EmployeeService extends StorageService {
 
 
@@ -58,18 +56,18 @@ public class EmployeeService extends StorageService {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/order",method = RequestMethod.POST)
-    public Response addOrder(@RequestBody @Valid Order order) throws IOException, ParseException {
+    public Response addOrder(@RequestBody @Valid Order order){
         JSONObject json = employeeController.createOrder(order);
         return build201(json);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value = "/order",method = RequestMethod.POST)
-    public Response addCustomer(@RequestBody @Valid Customer customer) throws IOException, ParseException, BadRequestException {
+    @RequestMapping(value = "/customer",method = RequestMethod.POST)
+    public Response addCustomer(@RequestBody @Valid Customer customer)  {
         JSONObject json = employeeController.createCustomer(customer);
 
         if(userManager.userExists(customer.getEmail())){
-            throw new BadRequestException("Email already exists");
+
         }
 
         List<GrantedAuthority> roles = new ArrayList<>();
@@ -82,14 +80,14 @@ public class EmployeeService extends StorageService {
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{customerID}", method= RequestMethod.GET)
-    public Response getCustomer(@PathVariable("customerID") String customerID) throws IOException {
+    public Response getCustomer(@PathVariable("customerID") String customerID){
         JsonNode info = employeeController.getCustomerById(customerID);
         return build200(info);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{customerID}", method= RequestMethod.DELETE)
-    public Response deleteCustomer(@PathVariable("customerID") String customerID) throws IOException {
+    public Response deleteCustomer(@PathVariable("customerID") String customerID)  {
         JsonNode info = employeeController.deleteCustomerById(customerID);
         return build200(info);
     }
@@ -105,7 +103,7 @@ public class EmployeeService extends StorageService {
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/recommendation/{customerID}", method= RequestMethod.DELETE)
-    public Response getRecomendations(@PathVariable("customerID") String customerID) throws IOException {
+    public Response getRecomendations(@PathVariable("customerID") String customerID){
         JsonNode info = employeeController.getRecommendationList(customerID);
         return build200(info);
     }

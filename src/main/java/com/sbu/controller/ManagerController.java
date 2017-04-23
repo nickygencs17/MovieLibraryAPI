@@ -3,10 +3,12 @@ package com.sbu.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sbu.data.entitys.Employee;
 import org.json.simple.JSONObject;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by nicholasgenco on 4/10/17.
  */
+@Component
 public class ManagerController extends StorageController {
     public JSONObject createEmployee(Employee employee) {
         return new JSONObject();

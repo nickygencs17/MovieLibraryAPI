@@ -26,22 +26,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //Protects all requests from unauthorized users
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-<<<<<<< HEAD
-                .antMatchers("/create_user").permitAll()
-                .antMatchers("/admin").permitAll()
-=======
-                .antMatchers("/**").permitAll()
->>>>>>> ab8078bb3008e3e0c033a35ce451901a91e295e3
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/v2/api-docs").permitAll()
                 .anyRequest().authenticated()
-                
+
 
                 //Allows HTTP Basic auth
                 .and().httpBasic()
-<<<<<<< HEAD
-
-
-=======
->>>>>>> ab8078bb3008e3e0c033a35ce451901a91e295e3
                 .and().headers()
                 .and().logout().disable()
                 //
@@ -57,19 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
         final Properties users = new Properties();
-<<<<<<< HEAD
+
         //add whatever other user you need
         users.put("admin", "pass,ROLE_ADMIN,enabled");
         users.put("employee","pass,ROLE_EMPLOYEE,enabled");
         users.put("customer","pass,ROLE_CUSTOMER,enabled");
 
-=======
-        users.put("user", "pass,ROLE_USER,enabled"); 
-        //add whatever other user you need
-        users.put("admin", "pass,ROLE_ADMIN,enabled");
-        
-        //used license pool address
->>>>>>> ab8078bb3008e3e0c033a35ce451901a91e295e3
         return new InMemoryUserDetailsManager(users);
     }
 

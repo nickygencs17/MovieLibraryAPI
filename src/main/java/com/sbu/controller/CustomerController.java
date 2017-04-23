@@ -2,12 +2,14 @@ package com.sbu.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.json.simple.JSONObject;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * Created by nicholasgenco on 4/10/17.
  */
+@Component
 public class CustomerController extends StorageController {
 
 

@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.sbu.data.entitys.Customer;
 import com.sbu.data.entitys.Order;
 import org.json.simple.JSONObject;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by nicholasgenco on 4/10/17.
  */
+@Component
 public class EmployeeController extends StorageController {
 
 

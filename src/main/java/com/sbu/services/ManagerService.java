@@ -35,9 +35,9 @@ import static com.sbu.services.ResponseUtil.build201;
  Produce a list of most actively rented movies
  *
  */
-@CrossOrigin
+
 @RestController
-@RequestMapping("/manager")
+@RequestMapping("/storage/manager")
 public class ManagerService extends StorageService {
 
 

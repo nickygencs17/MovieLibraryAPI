@@ -32,7 +32,7 @@ import static com.sbu.services.ResponseUtil.build200;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/storage/customer")
 public class CustomerService extends StorageService  {
 
 
