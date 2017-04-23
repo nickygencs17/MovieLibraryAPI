@@ -2,9 +2,14 @@ package com.sbu.data.entitys;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  * Created by nicholasgenco on 4/3/17.
  */
+@Entity
+@Table(name="Person")
 public class Customer extends Person {
 
     @NotBlank(message = "email may not be left blank")
@@ -27,6 +32,7 @@ public class Customer extends Person {
     public int getRating() {
         return rating;
     }
+
 
     public String getEmail() {
         return email;

@@ -2,6 +2,10 @@ package com.sbu.data.entitys;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+
 /**
  * Created by nicholasgenco on 4/3/17.
  * SSN INTEGER,
@@ -11,8 +15,11 @@ import org.hibernate.validator.constraints.NotBlank;
  ZipCode INTEGER,
  Telephone INTEGER,
  */
+@Entity
+@Inheritance
 public class Person {
 
+    @Id
     @NotBlank(message = "ssn field may not be left blank")
     public String ssn;
 
