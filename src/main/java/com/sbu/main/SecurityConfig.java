@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.Properties;
 
+
 /**
- * Created by silda05 on 11/7/16.
+ * Created by nicholasgenco on 4/23/17.
  */
+
 @CrossOrigin
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
