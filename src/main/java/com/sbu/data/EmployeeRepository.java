@@ -1,10 +1,10 @@
 package com.sbu.data;
 
-import com.sbu.data.entitys.Customer;
+import com.sbu.data.entitys.Employee;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.transaction.Transactional;
 
 
 @Transactional
-public interface CustomerRepository extends CrudRepository<Customer, Long> { }
+public interface EmployeeRepository extends CrudRepository<Employee, Long> { }

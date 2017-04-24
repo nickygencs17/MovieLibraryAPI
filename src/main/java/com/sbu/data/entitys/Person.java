@@ -4,7 +4,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
+import javax.persistence.Table;
 
 /**
  * Created by nicholasgenco on 4/3/17.
@@ -16,7 +16,7 @@ import javax.persistence.Inheritance;
  Telephone INTEGER,
  */
 @Entity
-@Inheritance
+@Table(name = "Person")
 public class Person {
 
     @Id
@@ -36,7 +36,7 @@ public class Person {
     public int zipcode;
 
     @NotBlank(message = "telephone may not be left blank")
-    public int telephone;
+    public String telephone;
 
 
     @NotBlank(message = "password cannot be blank")
@@ -45,7 +45,7 @@ public class Person {
     public Person() {
     }
 
-    public Person(String ssn, String lastname,String firstname, String password, String address, int zipcode, int telephone){
+    public Person(String ssn, String lastname,String firstname, String password, String address, int zipcode, String telephone){
         this.password = password;
         this.ssn =ssn;
         this.lastname =lastname;
@@ -71,7 +71,7 @@ public class Person {
         this.lastname = lastname;
     }
 
-    public void setTelephone(int telephone) {
+    public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 
@@ -98,7 +98,7 @@ public class Person {
         return address;
     }
 
-    public int getTelephone() {
+    public String getTelephone() {
         return telephone;
     }
 

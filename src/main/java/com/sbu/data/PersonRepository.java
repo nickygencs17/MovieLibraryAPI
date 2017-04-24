@@ -1,6 +1,7 @@
 package com.sbu.data;
 
 import com.sbu.data.entitys.Person;
+import org.springframework.data.repository.CrudRepository;
 
 import javax.transaction.Transactional;
 
@@ -15,4 +16,4 @@ import javax.transaction.Transactional;
  * @see netgloo.models.UserBaseRepository
  */
 @Transactional
-public interface PersonRepository extends PersonBaseRepository<Person> { }
+public interface PersonRepository extends CrudRepository<Person, Long> { }

@@ -2,14 +2,15 @@ package com.sbu.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sbu.controller.EmployeeController;
+import com.sbu.data.EmployeeRepository;
 import com.sbu.data.entitys.Customer;
+import com.sbu.data.entitys.Employee;
 import com.sbu.data.entitys.Order;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +44,8 @@ public class EmployeeService extends StorageService {
 
     @Autowired
     private final InMemoryUserDetailsManager userManager;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
 
     private static final GrantedAuthority ROLE_EMPLOYEE = new SimpleGrantedAuthority("ROLE_EMPLOYEE");
@@ -53,6 +56,15 @@ public class EmployeeService extends StorageService {
     public EmployeeService(InMemoryUserDetailsManager inMemoryUserDetailsManager) {
         this.userManager = inMemoryUserDetailsManager;
     }
+
+
+    @GetMapping(path="/all")
+    public @ResponseBody
+    Iterable<Employee> getAllUsers() {
+        // This returns a JSON or XML with the users
+        return employeeRepository.findAll();
+    }
+
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/order",method = RequestMethod.POST)
@@ -72,7 +84,7 @@ public class EmployeeService extends StorageService {
 
         List<GrantedAuthority> roles = new ArrayList<>();
         roles.add(ROLE_CUSTOMER);
-        userManager.createUser(new User(customer.getEmail(), customer.getPassword(), roles));
+        //userManager.createUser(new User(customer.getEmail(), customer.getPassword(), roles));
 
 
         return build201(json);
@@ -94,7 +106,7 @@ public class EmployeeService extends StorageService {
 
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/mailList}", method= RequestMethod.GET)
+    @RequestMapping(value = "/mailList", method= RequestMethod.GET)
     public Response getMailingList() throws IOException {
         JsonNode info = employeeController.getMailingList("new");
         return build200(info);

@@ -2,31 +2,44 @@ package com.sbu.data.entitys;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by nicholasgenco on 4/3/17.
  */
 @Entity
-@Table(name="Person")
-public class Customer extends Person {
+@Table(name = "Customer")
+public class Customer {
+
 
     @NotBlank(message = "email may not be left blank")
     public String email;
 
+    @NotBlank
+    private String creditcardnumber;
+
+    @Id
+    private String id;
+
     @NotBlank(message = "rating may not be left blank")
     public int rating;
+
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "Id")
+    Person customer;
 
 
 
     public Customer(){
 
     }
-    public Customer(String ssn, String lastname,String firstname, String password, String address, int zipcode, int telephone, String email, int rating) {
-        super(ssn, lastname, firstname, password, address, zipcode, telephone);
+
+    public Customer(String id,String email, int rating,String creditcardnumber) {
+        this.id = id;
         this.rating=rating;
         this.email = email;
+        this.creditcardnumber = creditcardnumber;
     }
 
     public int getRating() {
@@ -38,11 +51,36 @@ public class Customer extends Person {
         return email;
     }
 
+    public Person getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Person customer) {
+        this.customer = customer;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+
+    public String getCreditcardnumber() {
+        return creditcardnumber;
+    }
+
+    public void setCreditcardnumber(String creditcardnumber) {
+        this.creditcardnumber = creditcardnumber;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

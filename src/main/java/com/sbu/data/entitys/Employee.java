@@ -2,6 +2,7 @@ package com.sbu.data.entitys;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -16,38 +17,67 @@ import java.util.Date;
  ON DELETE NO ACTION
  ON UPDATE CASCADE )
  */
-public class Employee extends Person {
+
+@Entity
+@Table(name = "Employee")
+public class Employee {
+
+
+    @Id
+    public String id;
 
     @NotBlank(message = "start date cannot be blank")
-    Date startDate;
+    public Date startdate;
 
     @NotBlank(message = "hourly rate cannot be blank")
-    int hourlyRate;
+    public int hourlyrate;
+
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "Id")
+    Person employee;
 
 
     public Employee(){
 
     }
 
-    public Employee(String ssn, String lastname, String firstname,String password, String address, int zipcode, int telephone, Date startDate, int hourlyRate) {
-    super(ssn,lastname,firstname,password,address,zipcode,telephone);
-    this.startDate=startDate;
-    this.hourlyRate=hourlyRate;
+    public Employee(String id, Date startdate, int hourlyrate) {
+        this.id = id;
+        this.startdate=startdate;
+        this.hourlyrate=hourlyrate;
     }
 
     public void setHourlyRate(int hourlyRate) {
-        this.hourlyRate = hourlyRate;
+        this.hourlyrate = hourlyRate;
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startdate = startDate;
     }
 
     public Date getStartDate() {
-        return startDate;
+        return startdate;
     }
 
     public int getHourlyRate() {
-        return hourlyRate;
+        return hourlyrate;
+    }
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Person getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Person employee) {
+        this.employee = employee;
     }
 }

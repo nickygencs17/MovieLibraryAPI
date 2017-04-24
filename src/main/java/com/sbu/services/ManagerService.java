@@ -11,15 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.sbu.services.ResponseUtil.build200;
 import static com.sbu.services.ResponseUtil.build201;
@@ -66,14 +63,14 @@ public class ManagerService extends StorageService {
         JSONObject json = managerController.createEmployee(employee);
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        if(userManager.userExists(employee.getSsn())){
-            throw new BadRequestException("SSN already exists");
-        }
-
-        List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(ROLE_EMPLOYEE);
-        userManager.createUser(new User(employee.getSsn(), employee.getPassword(), roles));
+//
+//       // if(userManager.userExists(employee.getSsn())){
+//           // throw new BadRequestException("SSN already exists");
+//        }
+//
+//        List<GrantedAuthority> roles = new ArrayList<>();
+//        roles.add(ROLE_EMPLOYEE);
+//        userManager.createUser(new User(employee.getSsn(), employee.getPassword(), roles));
 
         return build201(json);
     }
