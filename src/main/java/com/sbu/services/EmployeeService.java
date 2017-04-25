@@ -27,12 +27,11 @@ import static com.sbu.services.ResponseUtil.build201;
 /**
  Customer Representatives should be able to:
 
- Record an order
- Add, Edit and Delete information for a customer
+
+ Edit information for a customer
  Produce customer mailing lists
  Produce a list of movie suggestions for a given customer
- (using the recommender system which uses information about the customer's
- past orders and that of nearest neighbors)
+
  */
 
 @RestController
@@ -118,18 +117,22 @@ public class EmployeeService extends StorageService {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{customerID}", method= RequestMethod.GET)
     public Response getCustomer(@PathVariable("customerID") String customerID){
-        JsonNode info = employeeController.getCustomerById(customerID);
+        Customer customer = employeeController.getCustomerById(Long.valueOf(customerID));
 
-        return build200(info);
+        return build200(customer);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{customerID}", method= RequestMethod.DELETE)
     public Response deleteCustomer(@PathVariable("customerID") String customerID)  {
-        JsonNode info = employeeController.deleteCustomerById(customerID);
-        return build200(info);
+        employeeController.deleteCustomerById(Long.valueOf(customerID));
+        return build200("Delete Ok");
     }
 
+
+
+
+    //NOT IMPLMENTED
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/mailList", method= RequestMethod.GET)
@@ -140,7 +143,7 @@ public class EmployeeService extends StorageService {
 
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/recommendation/{customerID}", method= RequestMethod.DELETE)
+    @RequestMapping(value = "/recommendation/{customerID}", method= RequestMethod.GET)
     public Response getRecomendations(@PathVariable("customerID") String customerID){
         JsonNode info = employeeController.getRecommendationList(customerID);
         return build200(info);

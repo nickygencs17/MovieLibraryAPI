@@ -1,8 +1,8 @@
 package com.sbu.data.entitys;
 
-import org.hibernate.validator.constraints.NotBlank;
-
-import java.util.Currency;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by nicholasgenco on 4/5/17.
@@ -16,62 +16,45 @@ import java.util.Currency;
  NumCopies INTEGER,
  PRIMARY KEY (Id) )
  */
+@Entity
 public class Movie {
 
-    @NotBlank(message = "movieID may not be left blank")
-    int movieID;
+    @Id
+    int ID;
 
-    @NotBlank(message = "movie name may not be left blank")
-    String movieName;
+    @NotNull
+    String name;
 
-    @NotBlank(message = "movietype may not be left blank")
-    String movieType;
+    String type;
 
-    @NotBlank(message = "rating may not be left blank")
     int rating;
 
-    @NotBlank(message = "currency may not be left blank")
-    Currency currency;
+    String distrfee;
 
-    @NotBlank(message = "numcopies may not be left blank")
-    int numCopies;
+    int numcopies;
 
-
-    public Movie(){
-
+    public int getID() {
+        return ID;
     }
 
-    public Movie(int movieID, String movieName, String movieType, int rating, Currency currency, int numCopies){
-        this.movieID =movieID;
-        this.movieName = movieName;
-        this.movieType =movieType;
-        this.rating = rating;
-        this.currency = currency;
-        this.numCopies= numCopies;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
-    public int getMovieID() {
-        return movieID;
+    public String getName() {
+        return name;
     }
 
-    public void setMovieID(int movieID) {
-        this.movieID = movieID;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getMovieName() {
-        return movieName;
+    public String getType() {
+        return type;
     }
 
-    public void setMovieName(String movieName) {
-        this.movieName = movieName;
-    }
-
-    public String getMovieType() {
-        return movieType;
-    }
-
-    public void setMovieType(String movieType) {
-        this.movieType = movieType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getRating() {
@@ -82,19 +65,25 @@ public class Movie {
         this.rating = rating;
     }
 
-    public Currency getCurrency() {
-        return currency;
+    public String getDistrfee() {
+        return distrfee;
     }
 
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
+    public void setDistrfee(String distrfee) {
+        this.distrfee = distrfee;
     }
 
-    public int getNumCopies() {
-        return numCopies;
+    public int getNumcopies() {
+        return numcopies;
     }
 
-    public void setNumCopies(int numCopies) {
-        this.numCopies = numCopies;
+    public void setNumcopies(int numcopies) {
+        this.numcopies = numcopies;
     }
+
+    public Movie(){
+
+    }
+
+
 }
