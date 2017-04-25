@@ -9,7 +9,6 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -103,20 +102,6 @@ public class CustomerController extends StorageController {
 
 
 
-    public Set<Movie> getMovies(Iterable<String>moiveids){
-        Set<Movie> movies = new HashSet<>();
-        for (String movieid: moiveids){
-            movies.add(movieRepository.findOne(Integer.parseInt(movieid)));
-        }
-        return movies;
-    }
 
-    public Set<Order> getOrders(Iterable<Integer>orderIds){
-        Set<Order> orders = new HashSet<>();
-        for (int orderid: orderIds){
-            orders.add(orderRepository.findOne(orderid));
-        }
-        return orders;
-    }
 
 }

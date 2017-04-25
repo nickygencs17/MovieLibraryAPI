@@ -20,8 +20,8 @@ import java.util.Set;
 import static com.sbu.services.ResponseUtil.build200;
 
 /**
- A customer's currently held movies
- A history of all current and past orders a customer has placed
+ * Not implmented:
+ Customer:
  Movies available with a particular keyword or set of keywords in the movie name
  Movies available starring a particular actor or group of actors
  Best-Seller list of movies

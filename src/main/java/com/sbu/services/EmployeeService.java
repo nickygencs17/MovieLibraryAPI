@@ -25,11 +25,9 @@ import static com.sbu.services.ResponseUtil.build200;
 import static com.sbu.services.ResponseUtil.build201;
 
 /**
+ * Not implmented:
  Customer Representatives should be able to:
-
-
  Edit information for a customer
- Produce customer mailing lists
  Produce a list of movie suggestions for a given customer
 
  */

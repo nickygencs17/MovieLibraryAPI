@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.sbu.controller.ManagerController;
 import com.sbu.data.LocationRepository;
 import com.sbu.data.MovieRepository;
-import com.sbu.data.entitys.Customer;
 import com.sbu.data.entitys.Employee;
 import com.sbu.data.entitys.Movie;
 import com.sbu.exceptions.BadRequestException;
@@ -22,16 +21,18 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static com.sbu.services.ResponseUtil.build200;
 import static com.sbu.services.ResponseUtil.build201;
 
 /**
  * Created by nicholasgenco on 4/10/17.
+ * Not implmented:
+ * Manger
  Edit movies
  Edit information for an employee
  Obtain a sales report (i.e. the overall income from all active subscriptions) for a particular month
- Produce a list of movie rentals by customer name
  Determine which customer representative oversaw the most transactions (rentals)
  Produce a list of most active customers
  Produce a list of most actively rented movies
@@ -148,12 +149,7 @@ public class ManagerService extends StorageService {
     }
 
 
-    @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/movies/customer/{customerName}",method= RequestMethod.GET)
-    public Response getMoviesByCustomerName(@PathVariable("customerName") String  customerName) throws IOException {
-        Iterable<Customer> info = managerController.getMoviesByCustomerName(customerName);
-        return build200(info);
-    }
+
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/movies/type/{movieType}",method= RequestMethod.GET)
@@ -167,7 +163,19 @@ public class ManagerService extends StorageService {
         Movie info = managerController.getMoviesByMovieName(movieName);
         return build200(info);
     }
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/movies/customer",method= RequestMethod.GET)
+    public Response getMoviesByCustomerName(@RequestParam(value = "firstname", required = true) String firstname,
+                                            @RequestParam(value = "lastname", required = true) String lastname) throws IOException {
+        Set<Movie> movies =managerController.getMoviesByCustomerName(firstname,lastname);
 
+        return build200(movies);
+    }
+
+
+
+
+    //NOTIIMPLMENTED
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value="/employee",  method = RequestMethod.GET)
@@ -191,5 +199,6 @@ public class ManagerService extends StorageService {
         JsonNode info = managerController.getCustomerWithMostTransactions();
         return build200(info);
     }
+
 
 }

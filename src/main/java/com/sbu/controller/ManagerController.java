@@ -1,16 +1,13 @@
 package com.sbu.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.sbu.data.CustomerRepository;
-import com.sbu.data.EmployeeRepository;
-import com.sbu.data.MovieRepository;
-import com.sbu.data.PersonRepository;
-import com.sbu.data.entitys.Customer;
-import com.sbu.data.entitys.Employee;
-import com.sbu.data.entitys.Movie;
+import com.sbu.data.*;
+import com.sbu.data.entitys.*;
 import com.sbu.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 /**
  * Created by nicholasgenco on 4/10/17.
@@ -30,6 +27,12 @@ public class ManagerController extends StorageController {
 
     @Autowired
     MovieRepository movieRepository;
+
+    @Autowired
+    AccountRepository accountRepository;
+
+    @Autowired
+    RentalRepository rentalRepository;
 
 
     public Employee createEmployee(Employee employee) {
@@ -72,25 +75,36 @@ public class ManagerController extends StorageController {
         return movieRepository.save(movie);
     }
 
+    public Iterable<Movie> getMoviesByMovieType(String movieType) {
+        return movieRepository.findMoviesByType(movieType);
 
-
-
-
-    public JsonNode getSalesReport() {
-        JsonNode node = null;
-        return node;
     }
+
+
+
+
+
 
     public Iterable<Movie> getMovies() {
         return movieRepository.findAll();
     }
 
-    public Iterable<Customer> getMoviesByCustomerName(String customerName) {
-        return customerRepository.findAll();
-    }
-    public Iterable<Movie> getMoviesByMovieType(String movieType) {
-        return movieRepository.findMoviesByType(movieType);
+    public Set<Movie> getMoviesByCustomerName(String firstname, String lastName) {
+        Person person = personRepository.findByLastnameAndFirstname(lastName,firstname);
+        Customer customer=customerRepository.findOne(person.getSsn());
+        Account account= accountRepository.findAccountByCustomer(customer.getId().toString());
+        if(account==null){
+            throw new ResourceNotFoundException("acount");
+        }
+        Iterable<String> movieIds = rentalRepository.findMovieIDsbyAccountID(account.getId().toString());
 
+        return getMovies(movieIds);
+    }
+
+
+    public JsonNode getSalesReport() {
+        JsonNode node = null;
+        return node;
     }
 
     public Movie getMoviesByMovieName(String movieName) {
