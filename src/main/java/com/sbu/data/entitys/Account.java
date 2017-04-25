@@ -2,6 +2,7 @@ package com.sbu.data.entitys;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -16,60 +17,68 @@ import java.util.Date;
  ON DELETE NO ACTION
  ON UPDATE CASCADE )
  */
+@Entity
 public class Account {
 
+    @JoinTable
     @NotBlank(message = "customerID may not be left blank")
-    int customerId;
+    int customerid;
 
     @NotBlank(message = "dateOpened may not be left blank")
-    Date dateOpened;
+    Date dateopened;
 
     @NotBlank(message = "accountType may not be left blank")
-    int accountType;
+    int type;
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @NotBlank(message = "accountID may not be left blank")
-    int accountId;
+    int accountid;
+
+
 
 
     public Account(){
 
     }
-    public Account(int accountId, Date dateOpened, int accountType, int customerId){
-        this.accountId=accountId;
-        this.dateOpened=dateOpened;
-        this.accountType=accountType;
-        this.customerId= customerId;
+    public Account(int accountid, Date dateopened, int type, int customerid){
+        this.accountid=accountid;
+        this.dateopened=dateopened;
+        this.type = type;
+        this.customerid= customerid;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public int getCustomerid() {
+        return customerid;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setCustomerid(int customerid) {
+        this.customerid = customerid;
     }
 
-    public Date getDateOpened() {
-        return dateOpened;
+    public Date getDateopened() {
+        return dateopened;
     }
 
-    public void setDateOpened(Date dateOpened) {
-        this.dateOpened = dateOpened;
+    public void setDateopened(Date dateopened) {
+        this.dateopened = dateopened;
     }
 
-    public int getAccountType() {
-        return accountType;
+    public int getType() {
+        return type;
     }
 
-    public void setAccountType(int accountType) {
-        this.accountType = accountType;
+    public void setType(int type) {
+        this.type = type;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public int getAccountid() {
+        return accountid;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setAccountid(int accountid) {
+        this.accountid = accountid;
     }
+
+
 }

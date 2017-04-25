@@ -7,6 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <property name="hibernate.hbm2ddl.auto" value="validate" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-web:4.3.5.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
     <orderEntry type="library" name="Gradle: io.swagger:swagger-models:1.5.10" level="project" />
@@ -24,5 +25,6 @@
     <orderEntry type="library" name="Gradle: io.springfox:springfox-core:2.6.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-config:4.2.2.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-core:4.2.1.RELEASE" level="project" />
+
   </component>
 </module>

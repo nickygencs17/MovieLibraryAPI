@@ -2,6 +2,10 @@ package com.sbu.data.entitys;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Created by nicholasgenco on 4/6/17.
  * CREATE TABLE Actor (
@@ -12,8 +16,14 @@ import org.hibernate.validator.constraints.NotBlank;
  Rating INTEGER,
  PRIMARY KEY (Id) )
  */
+
+
+@Entity // This tells Hibernate to make a table out of this class
+@Table(name = "Actor")
 public class Actor {
 
+
+    @Id
     @NotBlank(message = "actor id cannot be blank")
     int actorID;
 

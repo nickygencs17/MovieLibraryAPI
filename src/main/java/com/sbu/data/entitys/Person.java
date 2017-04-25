@@ -1,6 +1,6 @@
 package com.sbu.data.entitys;
 
-import org.hibernate.validator.constraints.NotBlank;
+import javax.persistence.*;
 
 /**
  * Created by nicholasgenco on 4/3/17.
@@ -11,44 +11,45 @@ import org.hibernate.validator.constraints.NotBlank;
  ZipCode INTEGER,
  Telephone INTEGER,
  */
+@Entity
+@Table(name = "Person")
 public class Person {
 
-    @NotBlank(message = "ssn field may not be left blank")
-    public String ssn;
+    @Id
+    public Long ssn;
 
-    @NotBlank(message = "firstname field may not be left blank")
     public String firstname;
 
-    @NotBlank(message = "lastname field may not be left blank")
     public String lastname;
 
-    @NotBlank(message = "address field may not be left blank")
     public String address;
 
-    @NotBlank(message = "zipcode may not be left blank")
-    public int zipcode;
 
-    @NotBlank(message = "telephone may not be left blank")
-    public int telephone;
+    public String telephone;
 
 
-    @NotBlank(message = "password cannot be blank")
     public String password;
+
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "Zipcode")
+    Location location;
 
     public Person() {
     }
 
-    public Person(String ssn, String lastname,String firstname, String password, String address, int zipcode, int telephone){
+    public Person(Long ssn, String lastname,String firstname, String password, String address, String telephone){
         this.password = password;
         this.ssn =ssn;
         this.lastname =lastname;
         this.firstname=firstname;
         this.address=address;
-        this.zipcode=zipcode;
         this.telephone=telephone;
     }
 
-    public void setSsn(String ssn) {
+
+
+    public void setSsn(Long ssn) {
         this.ssn = ssn;
     }
 
@@ -64,13 +65,11 @@ public class Person {
         this.lastname = lastname;
     }
 
-    public void setTelephone(int telephone) {
+    public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 
-    public void setZipcode(int zipcode) {
-        this.zipcode = zipcode;
-    }
+
     public String getFirstname() {
         return firstname;
     }
@@ -79,24 +78,29 @@ public class Person {
         return lastname;
     }
 
-    public String getSsn() {
+    public Long getSsn() {
         return ssn;
     }
 
-    public int getZipcode() {
-        return zipcode;
-    }
 
     public String getAddress() {
         return address;
     }
 
-    public int getTelephone() {
+    public String getTelephone() {
         return telephone;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public void setPassword(String password) {

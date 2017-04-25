@@ -1,8 +1,9 @@
 package com.sbu.data.entitys;
 
-import org.hibernate.validator.constraints.NotBlank;
 
+import javax.persistence.*;
 import java.util.Date;
+
 
 /**
  * Created by nicholasgenco on 4/6/17.
@@ -11,28 +12,27 @@ import java.util.Date;
  DateTime DATETIME,
  ReturnDate DATE,
  PRIMARY KEY (Id) )
+
+ {
+ "datetime": "2017-04-24 21:59:21",
+ "id": 0,
+ "returndate": "2017-04-24"
+ }
  */
+@Entity
+@Table(name = "`Order`")
 public class Order {
-    @NotBlank(message = "id cannot be blank")
+
+    @Id
     int id;
 
-    @NotBlank(message = "dateTime cannot be blank")
-    Date dateTime;
-
-    @NotBlank(message = "return date cannot be blank")
-    Date returnDate;
-
-    public Order(){
-
-    }
+    @Temporal(TemporalType.DATE)
+    private Date returndate;
 
 
-    public Order(int id, Date dateTime, Date returnDate){
-
-        this.id= id;
-        this.dateTime= dateTime;
-        this.returnDate =returnDate;
-    }
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "datetime")
+    private Date datetime;
 
     public int getId() {
         return id;
@@ -42,19 +42,21 @@ public class Order {
         this.id = id;
     }
 
-    public Date getDateTime() {
-        return dateTime;
+
+    public void setDatetime(Date datetime) {
+        this.datetime = datetime;
     }
 
-    public void setDateTime(Date dateTime) {
-        this.dateTime = dateTime;
+    public void setReturndate(Date returndate) {
+        this.returndate = returndate;
     }
 
-    public Date getReturnDate() {
-        return returnDate;
+    public Date getDatetime() {
+        return datetime;
+    }
+    public Date getReturndate() {
+        return returndate;
     }
 
-    public void setReturnDate(Date returnDate) {
-        this.returnDate = returnDate;
-    }
+
 }
