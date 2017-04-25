@@ -24,7 +24,7 @@ public class Employee {
 
 
     @Id
-    public String id;
+    public Long id;
 
     @NotBlank(message = "start date cannot be blank")
     public Date startdate;
@@ -42,7 +42,7 @@ public class Employee {
 
     }
 
-    public Employee(String id, Date startdate, int hourlyrate) {
+    public Employee(Long id, Date startdate, int hourlyrate) {
         this.id = id;
         this.startdate=startdate;
         this.hourlyrate=hourlyrate;
@@ -65,11 +65,11 @@ public class Employee {
     }
 
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

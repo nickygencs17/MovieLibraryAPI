@@ -17,6 +17,7 @@ import java.util.Date;
  ON DELETE NO ACTION
  ON UPDATE CASCADE )
  */
+@Entity
 public class Account {
 
     @JoinTable
@@ -79,5 +80,5 @@ public class Account {
         this.accountid = accountid;
     }
 
-   
+
 }

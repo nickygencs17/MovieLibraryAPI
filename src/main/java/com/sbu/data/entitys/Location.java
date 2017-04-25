@@ -1,6 +1,8 @@
 package com.sbu.data.entitys;
 
-import org.hibernate.validator.constraints.NotBlank;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Created by nicholasgenco on 4/6/17.
@@ -10,15 +12,15 @@ import org.hibernate.validator.constraints.NotBlank;
  State CHAR(20) NOT NULL,
  PRIMARY KEY (ZipCode) )
  */
+@Entity
+@Table(name = "Location")
 public class Location {
 
-    @NotBlank(message = "zipCode cannot be blank")
-    int zipCode;
+    @Id
+    int zipcode;
 
-    @NotBlank(message = "city cannot be blank")
     String city;
 
-    @NotBlank(message = "State Cannot be blank")
     String state;
 
 
@@ -26,9 +28,9 @@ public class Location {
 
     }
 
-    public Location(int zipCode, String city, String state){
+    public Location(int zipcode, String city, String state){
         this.city=city;
-        this.zipCode=zipCode;
+        this.zipcode=zipcode;
         this.state=state;
     }
 
@@ -40,12 +42,12 @@ public class Location {
         this.state = state;
     }
 
-    public int getZipCode() {
-        return zipCode;
+    public int getzipcode() {
+        return zipcode;
     }
 
-    public void setZipCode(int zipCode) {
-        this.zipCode = zipCode;
+    public void setzipcode(int zipcode) {
+        this.zipcode = zipcode;
     }
 
     public String getCity() {

@@ -1,9 +1,13 @@
 package com.sbu.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.sbu.data.CustomerRepository;
+import com.sbu.data.OrderRepository;
+import com.sbu.data.PersonRepository;
 import com.sbu.data.entitys.Customer;
 import com.sbu.data.entitys.Order;
-import org.json.simple.JSONObject;
+import com.sbu.exceptions.ResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,22 +17,40 @@ import org.springframework.stereotype.Component;
 public class EmployeeController extends StorageController {
 
 
-    public JSONObject createOrder(Order order) {
-        return new JSONObject();
+    @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private PersonRepository personRepository;
+
+    public Order createOrder(Order order){
+        return orderRepository.save(order);
     }
 
-    public JSONObject createCustomer(Customer customer) {
-        return new JSONObject();
+    public Customer createCustomer(Customer customer) {
+        personRepository.save(customer.getCustomer());
+        return customerRepository.save(customer);
     }
 
-    public JsonNode getCustomerById(String customerID) {
-        JsonNode node = null;
-        return node;
+    public Customer getCustomerById(Long customerID) {
+
+        return customerRepository.findOne(customerID);
     }
 
-    public JsonNode deleteCustomerById(String customerID) {
-        JsonNode node = null;
-        return node;
+    public void deleteCustomerById(Long customerID) {
+
+
+        if(customerRepository.exists(customerID))
+        {
+            customerRepository.delete(customerID);
+        }
+        else{
+            throw new ResourceNotFoundException("CUSTOMER");
+        }
+
     }
 
     public JsonNode getMailingList(String customerID) {

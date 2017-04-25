@@ -1,7 +1,5 @@
 package com.sbu.data.entitys;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 import javax.persistence.*;
 
 /**
@@ -12,16 +10,14 @@ import javax.persistence.*;
 public class Customer {
 
 
-    @NotBlank(message = "email may not be left blank")
+
     public String email;
 
-    @NotBlank
     private String creditcardnumber;
 
     @Id
-    private String id;
+    private Long id;
 
-    @NotBlank(message = "rating may not be left blank")
     public int rating;
 
 
@@ -31,11 +27,13 @@ public class Customer {
 
 
 
+
+
     public Customer(){
 
     }
 
-    public Customer(String id,String email, int rating,String creditcardnumber) {
+    public Customer(Long id, String email, int rating, String creditcardnumber) {
         this.id = id;
         this.rating=rating;
         this.email = email;
@@ -76,11 +74,11 @@ public class Customer {
         this.creditcardnumber = creditcardnumber;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

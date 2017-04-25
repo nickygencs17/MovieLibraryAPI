@@ -2,15 +2,16 @@ package com.sbu.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sbu.controller.EmployeeController;
-import com.sbu.data.EmployeeRepository;
+import com.sbu.data.*;
 import com.sbu.data.entitys.Customer;
 import com.sbu.data.entitys.Employee;
 import com.sbu.data.entitys.Order;
-import org.json.simple.JSONObject;
+import com.sbu.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +48,20 @@ public class EmployeeService extends StorageService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private PersonRepository personRepository;
+
+    @Autowired
+    private LocationRepository locationRepository;
+
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+
 
     private static final GrantedAuthority ROLE_EMPLOYEE = new SimpleGrantedAuthority("ROLE_EMPLOYEE");
     private static final GrantedAuthority ROLE_CUSTOMER = new SimpleGrantedAuthority("ROLE_CUSTOMER");
@@ -62,38 +77,49 @@ public class EmployeeService extends StorageService {
     public @ResponseBody
     Iterable<Employee> getAllUsers() {
         // This returns a JSON or XML with the users
+        employeeRepository.count();
         return employeeRepository.findAll();
     }
 
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/order",method = RequestMethod.POST)
-    public Response addOrder(@RequestBody @Valid Order order){
-        JSONObject json = employeeController.createOrder(order);
-        return build201(json);
+    public Response addOrder(@RequestBody Order order){
+
+        Long orderNumber = orderRepository.count();
+        order.setId(orderNumber.intValue());
+        employeeController.createOrder(order);
+
+        return build201(order.getId());
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/customer",method = RequestMethod.POST)
-    public Response addCustomer(@RequestBody @Valid Customer customer)  {
-        JSONObject json = employeeController.createCustomer(customer);
+    public Response addCustomer(@RequestBody @Valid Customer customer) throws BadRequestException {
+
+        if(!locationRepository.exists(customer.getCustomer().getLocation().getzipcode())){
+            locationRepository.save(customer.getCustomer().getLocation());
+        }
+
+        employeeController.createCustomer(customer);
+
 
         if(userManager.userExists(customer.getEmail())){
-
+            throw new BadRequestException();
         }
 
         List<GrantedAuthority> roles = new ArrayList<>();
         roles.add(ROLE_CUSTOMER);
-        //userManager.createUser(new User(customer.getEmail(), customer.getPassword(), roles));
+        userManager.createUser(new User(customer.getEmail(), customer.getCustomer().getPassword(), roles));
 
-
-        return build201(json);
+        return build201(customer.getCustomer().getSsn());
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{customerID}", method= RequestMethod.GET)
     public Response getCustomer(@PathVariable("customerID") String customerID){
         JsonNode info = employeeController.getCustomerById(customerID);
+
         return build200(info);
     }
 
