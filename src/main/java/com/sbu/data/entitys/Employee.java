@@ -1,7 +1,5 @@
 package com.sbu.data.entitys;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -26,11 +24,14 @@ public class Employee {
     @Id
     public Long id;
 
-    @NotBlank(message = "start date cannot be blank")
+    public Long ssn;
+
+    @Temporal(TemporalType.DATE)
     public Date startdate;
 
-    @NotBlank(message = "hourly rate cannot be blank")
+
     public int hourlyrate;
+
 
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -43,26 +44,13 @@ public class Employee {
     }
 
     public Employee(Long id, Date startdate, int hourlyrate) {
+
         this.id = id;
+        this.ssn = id;
         this.startdate=startdate;
         this.hourlyrate=hourlyrate;
     }
 
-    public void setHourlyRate(int hourlyRate) {
-        this.hourlyrate = hourlyRate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startdate = startDate;
-    }
-
-    public Date getStartDate() {
-        return startdate;
-    }
-
-    public int getHourlyRate() {
-        return hourlyrate;
-    }
 
 
     public Long getId() {
@@ -80,4 +68,30 @@ public class Employee {
     public void setEmployee(Person employee) {
         this.employee = employee;
     }
+
+    public Long getSsn() {
+        return ssn;
+    }
+
+    public void setSsn(Long ssn) {
+        this.ssn = ssn;
+    }
+
+    public Date getStartdate() {
+        return startdate;
+    }
+
+    public void setStartdate(Date startdate) {
+        this.startdate = startdate;
+    }
+
+    public int getHourlyrate() {
+        return hourlyrate;
+    }
+
+    public void setHourlyrate(int hourlyrate) {
+        this.hourlyrate = hourlyrate;
+    }
+
+
 }
