@@ -1,12 +1,9 @@
 package com.sbu.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.sbu.data.AccountRepository;
-import com.sbu.data.MovieQRepository;
-import com.sbu.data.MovieRepository;
-import com.sbu.data.OrderRepository;
+import com.sbu.data.*;
 import com.sbu.data.entitys.Account;
 import com.sbu.data.entitys.Movie;
+import com.sbu.data.entitys.Order;
 import com.sbu.exceptions.ResourceNotFoundException;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,35 +31,49 @@ public class CustomerController extends StorageController {
     @Autowired
     MovieQRepository movieQRepository;
 
+    @Autowired
+    RentalRepository rentalRepository;
 
-    public JsonNode getCustomerMoviesById(String customerID) {
 
-        JsonNode node = null;
-        return node;
+    public Set<Movie> getCustomerMoviesById(String customerID) {
+
+        Account account = getCustomerAccountById(customerID);
+
+        if(account==null){
+            throw new ResourceNotFoundException("acount");
+        }
+        Iterable<String> movieIds = rentalRepository.findMovieIDsbyAccountID(account.getId().toString());
+
+        return getMovies(movieIds);
     }
 
     public Iterable<Movie> getCustomerQueueById(String customerID) {
 
         Account account = getCustomerAccountById(customerID);
-        Set<Movie> movies = new HashSet<>();
+
         if(account==null){
             throw new ResourceNotFoundException("acount");
         }
         Iterable<String> movidIds =movieQRepository.findMovieQbyAccountID(account.getId().toString());
 
-        for (String movieq: movidIds){
-            movies.add(movieRepository.findOne(Integer.parseInt(movieq)));
-        }
-       return movies;
+        return getMovies(movidIds);
     }
+
 
     public Account getCustomerAccountById(String customerID) {
         return accountRepository.findAccountByCustomer(customerID);
     }
 
-    public JsonNode getCustomerOrdersById(String customerID) {
-        JsonNode node = null;
-        return node;
+    public Set<Order> getCustomerOrdersById(String customerID) {
+        Account account = getCustomerAccountById(customerID);
+
+        if(account==null){
+            throw new ResourceNotFoundException("acount");
+        }
+        Iterable<String> orderIds = rentalRepository.findOrderIDsbyAccountID(account.getId().toString());
+
+        return getOrders(orderIds);
+
     }
 
     public Iterable<Movie> getMoviesByType(String type) {
@@ -89,4 +100,23 @@ public class CustomerController extends StorageController {
     public JSONObject getMoviesByActors(List<String> actors) {
         return new JSONObject();
     }
+
+
+
+    public Set<Movie> getMovies(Iterable<String>moiveids){
+        Set<Movie> movies = new HashSet<>();
+        for (String movieid: moiveids){
+            movies.add(movieRepository.findOne(Integer.parseInt(movieid)));
+        }
+        return movies;
+    }
+
+    public Set<Order> getOrders(Iterable<String>orderIds){
+        Set<Order> orders = new HashSet<>();
+        for (String orderid: orderIds){
+            orders.add(orderRepository.findOne(Integer.parseInt(orderid)));
+        }
+        return orders;
+    }
+
 }

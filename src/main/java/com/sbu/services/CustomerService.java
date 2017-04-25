@@ -1,11 +1,11 @@
 package com.sbu.services;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.sbu.controller.CustomerController;
 import com.sbu.data.AccountRepository;
 import com.sbu.data.CustomerRepository;
 import com.sbu.data.entitys.Account;
 import com.sbu.data.entitys.Movie;
+import com.sbu.data.entitys.Order;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import static com.sbu.services.ResponseUtil.build200;
 
@@ -58,7 +59,7 @@ public class CustomerService extends StorageService  {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/movies/{customerID}", method= RequestMethod.GET)
     public Response getCustomerMoviesByID(@PathVariable("customerID") String customerID) throws IOException {
-        JsonNode info = customerController.getCustomerMoviesById(customerID);
+        Set<Movie> info = customerController.getCustomerMoviesById(customerID);
         return build200(info);
     }
 
@@ -85,6 +86,14 @@ public class CustomerService extends StorageService  {
         return build200(info);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/orders/{customerID}/current", method= RequestMethod.GET)
+    public Response getCustomerOrdersByID(@PathVariable("customerID") String customerID) throws IOException {
+        Set<Order> info = customerController.getCustomerOrdersById(customerID);
+        return build200(info);
+    }
+
+
 
 
 
@@ -93,14 +102,6 @@ public class CustomerService extends StorageService  {
 
 
 
-
-
-    @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/orders/{customerID}/current", method= RequestMethod.GET)
-    public Response getCustomerOrdersByID(@PathVariable("customerID") String customerID) throws IOException {
-        JsonNode info = customerController.getCustomerOrdersById(customerID);
-        return build200(info);
-    }
 
 
 

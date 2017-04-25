@@ -82,7 +82,6 @@ public class ManagerController extends StorageController {
     }
 
     public Iterable<Movie> getMovies() {
-        //needs to be implmented
         return movieRepository.findAll();
     }
 
