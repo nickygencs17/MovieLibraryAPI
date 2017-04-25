@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.sbu.controller.ManagerController;
 import com.sbu.data.LocationRepository;
 import com.sbu.data.MovieRepository;
+import com.sbu.data.entitys.Customer;
 import com.sbu.data.entitys.Employee;
 import com.sbu.data.entitys.Movie;
 import com.sbu.exceptions.BadRequestException;
@@ -33,9 +34,7 @@ import static com.sbu.services.ResponseUtil.build201;
  Edit movies
  Edit information for an employee
  Obtain a sales report (i.e. the overall income from all active subscriptions) for a particular month
- Determine which customer representative oversaw the most transactions (rentals)
- Produce a list of most active customers
- Produce a list of most actively rented movies
+
  *
  */
 
@@ -172,33 +171,30 @@ public class ManagerService extends StorageService {
         return build200(movies);
     }
 
-
-
-
-    //NOTIIMPLMENTED
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/mostTransactions", method = RequestMethod.GET)
+    public Response getCustomerWithMostTransactions () {
+        Set<Customer> info = managerController.getCustomerWithMostTransactions();
+        return build200(info);
+    }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value="/employee",  method = RequestMethod.GET)
     public Response getEmployeeWithMostTransaction(){
-        JsonNode info = managerController.getEmployeeWithMostTransaction();
+        Employee info = managerController.getEmployeeWithMostTransaction();
         return build200(info);
     }
+
 
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value="/mostRented",  method = RequestMethod.GET)
     public Response getMostRentedMovie() {
-        JsonNode info = managerController.getMostRentedMovies();
+        Iterable<Movie> info = managerController.getMostRentedMovies();
         return build200(info);
     }
 
 
-    @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/mostTransactions", method = RequestMethod.GET)
-    public Response getCustomerWithMostTransactions () {
-        JsonNode info = managerController.getCustomerWithMostTransactions();
-        return build200(info);
-    }
 
 
 }

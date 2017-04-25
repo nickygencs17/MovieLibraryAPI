@@ -1,7 +1,9 @@
 package com.sbu.controller;
 
+import com.sbu.data.AccountRepository;
 import com.sbu.data.MovieRepository;
 import com.sbu.data.OrderRepository;
+import com.sbu.data.entitys.Account;
 import com.sbu.data.entitys.Movie;
 import com.sbu.data.entitys.Order;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class StorageController {
     @Autowired
     MovieRepository movieRepository;
 
+    @Autowired
+    AccountRepository accountRepository;
+
     public Set<Movie> getMovies(Iterable<String>moiveids){
         Set<Movie> movies = new HashSet<>();
         for (String movieid: moiveids){
@@ -37,6 +42,14 @@ public class StorageController {
             orders.add(orderRepository.findOne(orderid));
         }
         return orders;
+    }
+
+    public Set<Account> getAccounts(Iterable<Integer>accountIds){
+        Set<Account> accounts = new HashSet<>();
+        for (Integer accountid: accountIds){
+            accounts.add(accountRepository.findOne(Long.parseLong(accountid.toString())));
+        }
+        return accounts;
     }
 
 }

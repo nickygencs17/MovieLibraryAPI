@@ -7,6 +7,7 @@ import com.sbu.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -111,19 +112,36 @@ public class ManagerController extends StorageController {
         return movieRepository.findByMovieName(movieName);
     }
 
-    public JsonNode getEmployeeWithMostTransaction() {
-        JsonNode node = null;
-        return node;
+    public Employee getEmployeeWithMostTransaction() {
+        Integer emploeeId = rentalRepository.getEmployeeIDWithMostTrasactions();
+        return employeeRepository.findOne(Long.parseLong(emploeeId.toString()));
     }
 
 
-    public JsonNode getCustomerWithMostTransactions() {
-        JsonNode node = null;
-        return node;
+    public Set<Customer> getCustomerWithMostTransactions() {
+
+       Iterable<Integer> accountIDs =rentalRepository.getAccountIDsWithMostTransActions();
+
+       Iterable<Account> accounts= getAccounts(accountIDs);
+
+
+       Set<Customer> customers = new HashSet<>();
+
+       for(Account account: accounts){
+           customers.add(account.getCustomer());
+       }
+
+        return customers;
+
     }
 
-    public JsonNode getMostRentedMovies() {
-        JsonNode node = null;
-        return node;
+    public Iterable<Movie> getMostRentedMovies() {
+        Iterable<String> movieIDs= rentalRepository.getMostRentedMovies();
+        Set<Movie> movies = new HashSet();
+
+        for(String movieId: movieIDs){
+            movies.add(movieRepository.findOne(Integer.valueOf(movieId)));
+        }
+        return  movies;
     }
 }

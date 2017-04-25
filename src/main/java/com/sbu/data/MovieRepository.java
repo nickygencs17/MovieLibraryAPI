@@ -20,4 +20,8 @@ public interface MovieRepository extends CrudRepository<Movie, Integer> {
 
     @Query(value = "SELECT * FROM Movie WHERE TYPE= ?1",nativeQuery = true)
     Iterable<Movie> findMoviesByType(String type);
+
+
+
+    Movie findByNameLike(String Keyword);
 }

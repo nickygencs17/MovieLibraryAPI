@@ -3,9 +3,8 @@ package com.sbu.services;
 import javax.ws.rs.core.Response;
 
 /**
- * Created by silda05 on 3/21/17.
+ * Created by nicholasgenco on 4/15/17.
  */
-
 public class ResponseUtil {
 
     public static Response build400(String message) {

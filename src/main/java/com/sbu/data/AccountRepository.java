@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
 
 
 @Transactional
-public interface AccountRepository extends CrudRepository<Account, Integer> {
+public interface AccountRepository extends CrudRepository<Account, Long> {
 
     @Query(value = "SELECT * FROM Account WHERE CUSTOMER= ?1", nativeQuery = true)
     Account findAccountByCustomer(String customer);

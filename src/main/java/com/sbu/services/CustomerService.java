@@ -24,7 +24,6 @@ import static com.sbu.services.ResponseUtil.build200;
  Customer:
  Movies available with a particular keyword or set of keywords in the movie name
  Movies available starring a particular actor or group of actors
- Best-Seller list of movies
  Personalized movie suggestion list
 
  Customers should also be able to:
@@ -94,7 +93,14 @@ public class CustomerService extends StorageService  {
     }
 
 
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/bestSellers", method = RequestMethod.GET)
+    public Response getBestSellers() throws Exception {
+        //JSONArray slideContent
+        Set<Movie> res = customerController.getMoviesBestSellers();
+        return build200(res);
 
+    }
 
 
 
@@ -105,14 +111,7 @@ public class CustomerService extends StorageService  {
 
 
 
-    @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/bestSellers", method = RequestMethod.GET)
-    public Response getBestSellers() throws Exception {
-        //JSONArray slideContent
-        JSONObject res = customerController.getMoviesBestSellers();
-        return build200(res);
 
-    }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/suggestionMovies/{customerID}", method = RequestMethod.GET)

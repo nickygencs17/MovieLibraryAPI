@@ -9,6 +9,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -80,8 +81,15 @@ public class CustomerController extends StorageController {
     }
 
 
-    public JSONObject getMoviesBestSellers() {
-        return new JSONObject();
+    public Set<Movie> getMoviesBestSellers() {
+        Iterable<String> movieIDs= rentalRepository.getMostRentedMovies();
+        Set<Movie> movies = new HashSet();
+
+        for(String movieId: movieIDs){
+            movies.add(movieRepository.findOne(Integer.valueOf(movieId)));
+        }
+        return  movies;
+
     }
 
     public JSONObject getSuggestions(String customerID) {
