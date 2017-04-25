@@ -1,7 +1,5 @@
 package com.sbu.data.entitys;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -24,19 +22,14 @@ public class Actor {
 
 
     @Id
-    @NotBlank(message = "actor id cannot be blank")
     int actorID;
 
-    @NotBlank(message = "name cannot be blank")
     String name;
 
-    @NotBlank(message = "age cannot be blank")
     int age;
 
-    @NotBlank(message = "sex cannot be blank")
     char sex;
 
-    @NotBlank(message = "rating cannot be blank")
     int rating;
 
     public Actor(){

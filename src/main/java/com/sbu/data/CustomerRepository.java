@@ -11,4 +11,6 @@ import javax.transaction.Transactional;
  */
 
 @Transactional
-public interface CustomerRepository extends CrudRepository<Customer, Long> { }
+public interface CustomerRepository extends CrudRepository<Customer, Long> {
+
+}

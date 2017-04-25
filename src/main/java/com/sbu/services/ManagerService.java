@@ -2,6 +2,8 @@ package com.sbu.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sbu.controller.ManagerController;
+import com.sbu.data.LocationRepository;
+import com.sbu.data.MovieRepository;
 import com.sbu.data.entitys.Customer;
 import com.sbu.data.entitys.Employee;
 import com.sbu.data.entitys.Movie;
@@ -28,10 +30,8 @@ import static com.sbu.services.ResponseUtil.build201;
  * Created by nicholasgenco on 4/10/17.
  Edit movies
  Edit information for an employee
-
  Obtain a sales report (i.e. the overall income from all active subscriptions) for a particular month
-
- Produce a list of movie rentals by movie name, movie type or customer name
+ Produce a list of movie rentals by customer name
  Determine which customer representative oversaw the most transactions (rentals)
  Produce a list of most active customers
  Produce a list of most actively rented movies
@@ -49,6 +49,12 @@ public class ManagerService extends StorageService {
     @Autowired
     private final InMemoryUserDetailsManager userManager;
 
+    @Autowired
+    private MovieRepository movieRepository;
+
+    @Autowired
+    private LocationRepository locationRepository;
+
 
     private static final GrantedAuthority ROLE_EMPLOYEE = new SimpleGrantedAuthority("ROLE_EMPLOYEE");
 
@@ -62,7 +68,9 @@ public class ManagerService extends StorageService {
     @RequestMapping(value = "/employee",method = RequestMethod.POST)
     public Response addEmployee(@RequestBody @Valid Employee employee) throws IOException, ParseException, BadRequestException {
 
-
+        if(!locationRepository.exists(employee.getEmployee().getLocation().getzipcode())){
+            locationRepository.save(employee.getEmployee().getLocation());
+        }
         managerController.createEmployee(employee);
 
        if(userManager.userExists(employee.getId().toString())){
@@ -81,7 +89,8 @@ public class ManagerService extends StorageService {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/movie",method = RequestMethod.POST)
     public Response addMovie(@RequestBody @Valid Movie movie) throws IOException, ParseException, BadRequestException {
-
+        Long movieNumber = movieRepository.count();
+        movie.setID(movieNumber.intValue());
         managerController.createMovie(movie);
 
         return build201("Created");
@@ -149,13 +158,13 @@ public class ManagerService extends StorageService {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/movies/type/{movieType}",method= RequestMethod.GET)
     public Response getMoviesByMovieType(@PathVariable("movieType") String movieType) throws IOException {
-        JsonNode info = managerController.getMoviesByMovieType(movieType);
-        return build200(info);
+        Iterable<Movie> movies= managerController.getMoviesByMovieType(movieType);
+        return build200(movies);
     }
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/movies/name/{movieName}",method= RequestMethod.GET)
     public Response getMoviesByMovieName(@PathVariable("movieName") String movieName) throws IOException {
-        JsonNode info = managerController.getMoviesByMovieName(movieName);
+        Movie info = managerController.getMoviesByMovieName(movieName);
         return build200(info);
     }
 
@@ -171,7 +180,7 @@ public class ManagerService extends StorageService {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value="/mostRented",  method = RequestMethod.GET)
     public Response getMostRentedMovie() {
-        JsonNode info = managerController.getEmployeeMostRentedMovie();
+        JsonNode info = managerController.getMostRentedMovies();
         return build200(info);
     }
 

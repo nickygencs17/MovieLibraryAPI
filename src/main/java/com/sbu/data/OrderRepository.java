@@ -12,4 +12,7 @@ import javax.transaction.Transactional;
 
 
 @Transactional
-public interface OrderRepository extends CrudRepository<Order, Integer> { }
+public interface OrderRepository extends CrudRepository<Order, Integer> {
+
+
+}

@@ -1,6 +1,6 @@
 package com.sbu.data.entitys;
 
-import org.hibernate.validator.constraints.NotBlank;
+import javax.persistence.*;
 
 /**
  * Created by nicholasgenco on 4/6/17.
@@ -15,39 +15,30 @@ import org.hibernate.validator.constraints.NotBlank;
  ON DELETE NO ACTION
  ON UPDATE CASCADE )
  */
+@Entity
 public class AppearedIn {
 
+    @Id
+    int actorid;
 
-        @NotBlank(message = "actorId cannot be blank")
-        int actorId;
-
-        @NotBlank(message = "movieId cannot be blank" )
-        String movieID;
-
-        public AppearedIn(){
-
-        }
-
-        public AppearedIn(int actorId, String movieID){
-            this.actorId =actorId;
-            this.movieID=movieID;
-        }
-
-        public int getActorId() {
-            return actorId;
-        }
-
-        public void setActorId(int accountId) {
-            this.actorId = accountId;
-        }
-
-        public String getMovieID() {
-            return movieID;
-        }
-
-        public void setMovieID(String movieID) {
-            this.movieID = movieID;
-        }
+    @OneToOne
+    @JoinColumn(name = "movieid")
+    Movie movie;
 
 
+    public int getActorid() {
+        return actorid;
+    }
+
+    public void setActorid(int actorid) {
+        this.actorid = actorid;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
 }

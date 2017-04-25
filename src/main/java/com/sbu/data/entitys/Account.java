@@ -1,7 +1,5 @@
 package com.sbu.data.entitys;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -20,40 +18,28 @@ import java.util.Date;
 @Entity
 public class Account {
 
-    @JoinTable
-    @NotBlank(message = "customerID may not be left blank")
-    int customerid;
 
-    @NotBlank(message = "dateOpened may not be left blank")
-    Date dateopened;
+        @Id
+        @Column(name="ID", nullable=false, unique=true)
+        // Require Generator config
+        private Long id;
 
-    @NotBlank(message = "accountType may not be left blank")
-    int type;
+        @Temporal(TemporalType.DATE)
+        private Date dateopened;
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @NotBlank(message = "accountID may not be left blank")
-    int accountid;
+        private String type;
 
-
+        @OneToOne(fetch = FetchType.EAGER)
+        @JoinColumn(name = "customer")
+        Customer customer;
 
 
-    public Account(){
-
-    }
-    public Account(int accountid, Date dateopened, int type, int customerid){
-        this.accountid=accountid;
-        this.dateopened=dateopened;
-        this.type = type;
-        this.customerid= customerid;
+    public Long getId() {
+        return id;
     }
 
-    public int getCustomerid() {
-        return customerid;
-    }
-
-    public void setCustomerid(int customerid) {
-        this.customerid = customerid;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Date getDateopened() {
@@ -64,21 +50,19 @@ public class Account {
         this.dateopened = dateopened;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public int getAccountid() {
-        return accountid;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setAccountid(int accountid) {
-        this.accountid = accountid;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
-
-
 }

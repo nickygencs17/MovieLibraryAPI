@@ -1,6 +1,6 @@
 package com.sbu.data.entitys;
 
-import org.hibernate.validator.constraints.NotBlank;
+import javax.persistence.*;
 
 /**
  * Created by nicholasgenco on 4/6/17.
@@ -15,36 +15,31 @@ import org.hibernate.validator.constraints.NotBlank;
  ON DELETE NO ACTION
  ON UPDATE CASCADE )
  */
+@Entity
 public class MovieQ {
 
-    @NotBlank(message = "accountId cannot be blank")
-    int accountId;
+    @Id
+    int accountid;
 
-    @NotBlank(message = "movieId cannot be blank" )
-    String movieID;
+    @OneToOne
+    @JoinColumn(name = "movieid")
+    Movie movie;
 
-    public MovieQ(){
-
+    @OneToMany(cascade=CascadeType.ALL)
+    public Movie getMovie() {
+        return movie;
     }
 
-    public MovieQ(int accountId, String movieID){
-        this.accountId =accountId;
-        this.movieID=movieID;
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public int getAccountid() {
+        return accountid;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setAccountid(int accountid) {
+        this.accountid = accountid;
     }
 
-    public String getMovieID() {
-        return movieID;
-    }
-
-    public void setMovieID(String movieID) {
-        this.movieID = movieID;
-    }
 }

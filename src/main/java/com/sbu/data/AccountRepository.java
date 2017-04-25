@@ -5,6 +5,7 @@ package com.sbu.data;
  */
 
 import com.sbu.data.entitys.Account;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.transaction.Transactional;
@@ -12,4 +13,8 @@ import javax.transaction.Transactional;
 
 
 @Transactional
-public interface AccountRepository extends CrudRepository<Account, Integer> { }
+public interface AccountRepository extends CrudRepository<Account, Integer> {
+
+    @Query(value = "SELECT * FROM Account WHERE CUSTOMER= ?1", nativeQuery = true)
+    Account findAccountByCustomer(String customer);
+}

@@ -82,20 +82,20 @@ public class ManagerController extends StorageController {
     }
 
     public Iterable<Movie> getMovies() {
+        //needs to be implmented
         return movieRepository.findAll();
     }
 
     public Iterable<Customer> getMoviesByCustomerName(String customerName) {
         return customerRepository.findAll();
     }
-    public JsonNode getMoviesByMovieType(String movieType) {
-        JsonNode node = null;
-        return node;
+    public Iterable<Movie> getMoviesByMovieType(String movieType) {
+        return movieRepository.findMoviesByType(movieType);
+
     }
 
-    public JsonNode getMoviesByMovieName(String movieName) {
-        JsonNode node = null;
-        return node;
+    public Movie getMoviesByMovieName(String movieName) {
+        return movieRepository.findByMovieName(movieName);
     }
 
     public JsonNode getEmployeeWithMostTransaction() {
@@ -103,12 +103,13 @@ public class ManagerController extends StorageController {
         return node;
     }
 
-    public JsonNode getEmployeeMostRentedMovie() {
+
+    public JsonNode getCustomerWithMostTransactions() {
         JsonNode node = null;
         return node;
     }
 
-    public JsonNode getCustomerWithMostTransactions() {
+    public JsonNode getMostRentedMovies() {
         JsonNode node = null;
         return node;
     }
