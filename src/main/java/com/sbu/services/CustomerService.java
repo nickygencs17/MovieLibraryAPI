@@ -57,14 +57,14 @@ public class CustomerService extends StorageService  {
 
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/movies/{customerID}", method= RequestMethod.GET)
+    @RequestMapping(value = "/moviesById/{customerID}", method= RequestMethod.GET)
     public Response getCustomerMoviesByID(@PathVariable("customerID") String customerID) throws IOException {
         Set<Movie> info = customerController.getCustomerMoviesById(customerID);
         return build200(info);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/movies/{type}", method= RequestMethod.GET)
+    @RequestMapping(value = "/moviesByType/{type}", method= RequestMethod.GET)
     public Response getMoviesByType(@PathVariable("type") String type) throws IOException {
         Iterable<Movie> movies = customerController.getMoviesByType(type);
         return build200(movies);

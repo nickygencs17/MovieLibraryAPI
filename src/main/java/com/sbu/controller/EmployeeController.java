@@ -53,9 +53,9 @@ public class EmployeeController extends StorageController {
 
     }
 
-    public JsonNode getMailingList(String customerID) {
-        JsonNode node = null;
-        return node;
+    public Iterable<Customer> getMailingList() {
+       return customerRepository.findAll();
+
     }
 
     public JsonNode getRecommendationList(String s) {

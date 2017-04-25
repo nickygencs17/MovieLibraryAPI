@@ -20,5 +20,5 @@ public interface RentalRepository extends CrudRepository<Rental, Integer> {
     Iterable<String> findMovieIDsbyAccountID(String accountID);
 
     @Query(value = "SELECT ORDERID FROM Rental WHERE ACCOUNTID= ?1",nativeQuery = true)
-    Iterable<String> findOrderIDsbyAccountID(String s);
+    Iterable<Integer> findOrderIDsbyAccountID(String s);
 }

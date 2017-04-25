@@ -70,7 +70,7 @@ public class CustomerController extends StorageController {
         if(account==null){
             throw new ResourceNotFoundException("acount");
         }
-        Iterable<String> orderIds = rentalRepository.findOrderIDsbyAccountID(account.getId().toString());
+        Iterable<Integer> orderIds = rentalRepository.findOrderIDsbyAccountID(account.getId().toString());
 
         return getOrders(orderIds);
 
@@ -111,10 +111,10 @@ public class CustomerController extends StorageController {
         return movies;
     }
 
-    public Set<Order> getOrders(Iterable<String>orderIds){
+    public Set<Order> getOrders(Iterable<Integer>orderIds){
         Set<Order> orders = new HashSet<>();
-        for (String orderid: orderIds){
-            orders.add(orderRepository.findOne(Integer.parseInt(orderid)));
+        for (int orderid: orderIds){
+            orders.add(orderRepository.findOne(orderid));
         }
         return orders;
     }

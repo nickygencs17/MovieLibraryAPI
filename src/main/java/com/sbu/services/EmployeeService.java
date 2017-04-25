@@ -130,16 +130,17 @@ public class EmployeeService extends StorageService {
     }
 
 
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/mailList", method= RequestMethod.GET)
+    public Response getMailingList() throws IOException {
+        Iterable<Customer> customers = employeeController.getMailingList();
+        return build200(customers);
+    }
+
 
 
     //NOT IMPLMENTED
 
-    @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/mailList", method= RequestMethod.GET)
-    public Response getMailingList() throws IOException {
-        JsonNode info = employeeController.getMailingList("new");
-        return build200(info);
-    }
 
 
     @ResponseStatus(HttpStatus.OK)
