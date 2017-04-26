@@ -3,9 +3,7 @@ package com.sbu.services;
 import com.sbu.controller.CustomerController;
 import com.sbu.data.AccountRepository;
 import com.sbu.data.CustomerRepository;
-import com.sbu.data.entitys.Account;
-import com.sbu.data.entitys.Movie;
-import com.sbu.data.entitys.Order;
+import com.sbu.data.entitys.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +20,6 @@ import static com.sbu.services.ResponseUtil.build200;
  * Not implmented:
  Customer:
 
-
-
- Personalized movie suggestion list
-
- Customers should also be able to:
-
- Rate the movies they have rented
  */
 @CrossOrigin
 @RestController
@@ -96,7 +87,6 @@ public class CustomerService extends StorageService  {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/bestSellers", method = RequestMethod.GET)
     public Response getBestSellers() throws Exception {
-        //JSONArray slideContent
         Set<Movie> res = customerController.getMoviesBestSellers();
         return build200(res);
 
@@ -105,7 +95,6 @@ public class CustomerService extends StorageService  {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/moviesByKeywords", method = RequestMethod.GET)
     public Response getMovieByKeyword(@RequestParam(value = "csvStringOfKeywords", required = false) String csvStringOfKeywords) throws Exception {
-        //JSONArray slideContent
         List<String> keywordItems = Arrays.asList(csvStringOfKeywords.split("\\s*,\\s*"));
         Iterable<Movie> res = customerController.getMoviesByKeywords(keywordItems);
         return build200(res);
@@ -114,7 +103,6 @@ public class CustomerService extends StorageService  {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/moviesByActors", method = RequestMethod.GET)
     public Response getMovieByActor(@RequestParam(value = "csvStringOfActors", required = false) String csvStringOfActors) throws Exception {
-        //JSONArray slideContent
         List<String> actors = Arrays.asList(csvStringOfActors.split("\\s*,\\s*"));
         Set<Movie> res = customerController.getMoviesByActors(actors);
         return build200(res);
@@ -122,19 +110,9 @@ public class CustomerService extends StorageService  {
     }
 
 
-    //not implmented
-
-
-
-
-
-
-
-
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/suggestionMovies/{customerID}", method = RequestMethod.GET)
     public Response getSuggestionsById(@PathVariable("customerID") String customerID) throws Exception {
-        //JSONArray slideContent
         Set<Movie> res = customerController.getSuggestions(customerID);
         return build200(res);
 
@@ -144,15 +122,10 @@ public class CustomerService extends StorageService  {
     @RequestMapping(value = "/{movieID}", method = RequestMethod.POST)
     public Response postRating(@PathVariable("movieID") String movieID,
                                @RequestParam("rating") int rating)throws Exception {
-        //JSONArray slideContent
         customerController.postRating(movieID,rating);
         return build200("OK");
 
     }
-
-
-
-
 
 
 

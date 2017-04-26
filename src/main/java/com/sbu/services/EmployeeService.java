@@ -26,11 +26,7 @@ import static com.sbu.services.ResponseUtil.build200;
 import static com.sbu.services.ResponseUtil.build201;
 
 /**
- * Not implmented:
- Customer Representatives should be able to:
-
- Edit information for a customer
- Produce a list of movie suggestions for a given customer
+ *
 
  */
 
@@ -145,8 +141,13 @@ public class EmployeeService extends StorageService {
     }
 
 
-
-
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/editCustomer", method = RequestMethod.PUT)
+    public Response editCustomer(@RequestBody Customer customer) throws Exception {
+        //JSONArray slideContent
+        employeeController.editCustomer(customer);
+        return build200("Edit Okay");
+    }
 
 
 

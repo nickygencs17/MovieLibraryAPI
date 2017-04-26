@@ -58,5 +58,7 @@ public class EmployeeController extends StorageController {
     }
 
 
-
+    public void editCustomer(Customer customer) {
+        customerRepository.save(customer);
+    }
 }

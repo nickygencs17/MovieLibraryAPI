@@ -34,6 +34,9 @@ public class ManagerController extends StorageController {
     @Autowired
     RentalRepository rentalRepository;
 
+    @Autowired
+    ActorRepository actorRepository;
+
 
     public Employee createEmployee(Employee employee) {
         personRepository.save(employee.getEmployee());
@@ -156,5 +159,24 @@ public class ManagerController extends StorageController {
             movies.add(movieRepository.findOne(Integer.valueOf(movieId)));
         }
         return  movies;
+    }
+
+    public void editEmployee(Employee employee) {
+        employeeRepository.save(employee);
+    }
+
+    public void editMovie(Movie movie) {
+
+        Movie oldMovie = movieRepository.findOne(Integer.parseInt(movie.getName()));
+        oldMovie.setRating(movie.getRating());
+        oldMovie.setName(movie.getName());
+        oldMovie.setDistrfee(movie.getDistrfee());
+        oldMovie.setNumcopies(movie.getNumcopies());
+        oldMovie.setType(movie.getType());
+        movieRepository.save(oldMovie);
+    }
+
+    public void addActor(Actor actor) {
+        actorRepository.save(actor);
     }
 }

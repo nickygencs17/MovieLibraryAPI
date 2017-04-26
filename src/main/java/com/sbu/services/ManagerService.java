@@ -3,6 +3,7 @@ package com.sbu.services;
 import com.sbu.controller.ManagerController;
 import com.sbu.data.LocationRepository;
 import com.sbu.data.MovieRepository;
+import com.sbu.data.entitys.Actor;
 import com.sbu.data.entitys.Customer;
 import com.sbu.data.entitys.Employee;
 import com.sbu.data.entitys.Movie;
@@ -190,6 +191,26 @@ public class ManagerService extends StorageService {
     public Response getMostRentedMovie() {
         Iterable<Movie> info = managerController.getMostRentedMovies();
         return build200(info);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/editEmployee", method = RequestMethod.PUT)
+    public Response editEmployee(@RequestBody Employee employee) throws Exception {
+        managerController.editEmployee(employee);
+        return build200("Edit Okay");
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/editMovies", method = RequestMethod.PUT)
+    public Response editMovie(@RequestBody Movie movie) throws Exception {
+        managerController.editMovie(movie);
+        return build200("Edit Okay");
+    }
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/actor", method = RequestMethod.POST)
+    public Response addActor(@RequestBody Actor actor) throws Exception {
+        managerController.addActor(actor);
+        return build201("OK Created");
     }
 
 
