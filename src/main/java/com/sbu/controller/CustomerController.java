@@ -2,6 +2,7 @@ package com.sbu.controller;
 
 import com.sbu.data.*;
 import com.sbu.data.entitys.Account;
+import com.sbu.data.entitys.Actor;
 import com.sbu.data.entitys.Movie;
 import com.sbu.data.entitys.Order;
 import com.sbu.exceptions.ResourceNotFoundException;
@@ -9,9 +10,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by nicholasgenco on 4/10/17.
@@ -33,6 +32,12 @@ public class CustomerController extends StorageController {
 
     @Autowired
     RentalRepository rentalRepository;
+
+    @Autowired
+    ActorRepository actorRepository;
+
+    @Autowired
+    AppearedInRepository appearedInRepository;
 
 
     public Set<Movie> getCustomerMoviesById(String customerID) {
@@ -100,16 +105,67 @@ public class CustomerController extends StorageController {
         return new JSONObject();
     }
 
-    public JSONObject getMoviesByKeywords(List<String> keywordItems) {
-        return new JSONObject();
+    public Iterable<Movie> getMoviesByKeywords(List<String> keywordItems) {
+        StringBuilder sb = new StringBuilder();
+
+        for(String keyword:keywordItems){
+            sb.append(keyword);
+            sb.append("|");
+        }
+        sb.deleteCharAt(sb.length()-1);
+
+
+        return movieRepository.fingMoviesByCSVkeywors(sb.toString());
     }
 
-    public JSONObject getMoviesByActors(List<String> actors) {
-        return new JSONObject();
+    public Set<Movie> getMoviesByActors(List<String> actorsNames) {
+
+        Set<Actor> actors = new HashSet<>();
+
+        for(String name: actorsNames){
+            actors.add(actorRepository.getByName(name));
+        }
+
+
+
+        List<String> movieIds = new ArrayList<>();
+        for(Actor a: actors){
+            movieIds.addAll(appearedInRepository.getAppearedInbyActorID(a.getId().toString()));
+        }
+
+        HashMap<String, Integer> elementCountMap = countOccurences(movieIds);
+        Set<Movie> movies = new HashSet<>();
+
+        for(String s: elementCountMap.keySet()) {
+            if(elementCountMap.get(s)==actorsNames.size()) {
+                movies.add(movieRepository.findOne(Integer.parseInt(s)));
+            }
+
+        }
+
+
+        return movies;
+
     }
+    public HashMap<String, Integer> countOccurences(List<String> movieIds) {
+
+        HashMap<String, Integer> elementCountMap = new HashMap<String, Integer>();
 
 
-
-
+        for (String i : movieIds)
+        {
+            if(elementCountMap.containsKey(i))
+            {
+                elementCountMap.put(i, elementCountMap.get(i)+1);
+            }
+            else
+            {
+                elementCountMap.put(i, 1);
+            }
+        }
+        return elementCountMap;
+    }
 
 }
+
+

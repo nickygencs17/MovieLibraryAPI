@@ -22,7 +22,7 @@ public class Actor {
 
 
     @Id
-    int actorID;
+    Integer id;
 
     String name;
 
@@ -32,25 +32,13 @@ public class Actor {
 
     int rating;
 
-    public Actor(){
 
+    public Integer getId() {
+        return id;
     }
 
-    public Actor(int actorID, String name, int age, char sex, int rating){
-        this.actorID=actorID;
-        this.name= name;
-        this.age=age;
-        this.sex=sex;
-        this.rating=rating;
-    }
-
-
-    public int getActorID() {
-        return actorID;
-    }
-
-    public void setActorID(int actorID) {
-        this.actorID = actorID;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -84,13 +72,4 @@ public class Actor {
     public void setRating(int rating) {
         this.rating = rating;
     }
-
-
-
-
-
-
-
-
-
 }

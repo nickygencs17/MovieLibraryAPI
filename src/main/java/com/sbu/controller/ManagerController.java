@@ -1,6 +1,5 @@
 package com.sbu.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.sbu.data.*;
 import com.sbu.data.entitys.*;
 import com.sbu.exceptions.ResourceNotFoundException;
@@ -103,9 +102,23 @@ public class ManagerController extends StorageController {
     }
 
 
-    public JsonNode getSalesReport() {
-        JsonNode node = null;
-        return node;
+    public int getSalesReport(int month) {
+
+        int sum = 0;
+        Iterable<Account> accounts = accountRepository.findByDatesBetween(month);
+        for(Account a: accounts) {
+           if (a.getType().equals("limited")) {
+               sum+=10;
+           } else if (a.getType().equals("unlimited-1")) {
+               sum+=15;
+           } else if (a.getType().equals("unlimited-2")) {
+               sum+=20;
+           } else if (a.getType().equals("unlimited-3")) {
+               sum+=25;
+           }
+        }
+
+       return sum;
     }
 
     public Movie getMoviesByMovieName(String movieName) {

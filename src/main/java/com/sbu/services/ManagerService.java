@@ -1,6 +1,5 @@
 package com.sbu.services;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.sbu.controller.ManagerController;
 import com.sbu.data.LocationRepository;
 import com.sbu.data.MovieRepository;
@@ -33,7 +32,6 @@ import static com.sbu.services.ResponseUtil.build201;
  * Manger
  Edit movies
  Edit information for an employee
- Obtain a sales report (i.e. the overall income from all active subscriptions) for a particular month
 
  *
  */
@@ -134,10 +132,10 @@ public class ManagerService extends StorageService {
 
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/sales",method= RequestMethod.GET)
-    public Response getSalesReport() throws IOException {
-        JsonNode info = managerController.getSalesReport();
-        return build200(info);
+    @RequestMapping(value = "/sales/{month}",method= RequestMethod.GET)
+    public Response getSalesReport(@PathVariable("month") int month) throws IOException {
+        int salesReport = managerController.getSalesReport(month);
+        return build200(salesReport);
     }
 
     @ResponseStatus(HttpStatus.OK)

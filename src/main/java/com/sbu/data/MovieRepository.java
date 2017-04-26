@@ -17,11 +17,18 @@ public interface MovieRepository extends CrudRepository<Movie, Integer> {
 
 
 
-
     @Query(value = "SELECT * FROM Movie WHERE TYPE= ?1",nativeQuery = true)
     Iterable<Movie> findMoviesByType(String type);
 
 
 
     Movie findByNameLike(String Keyword);
+
+
+    //"%Harry%Potter%"
+    //
+    //@Query(value = "SELECT * FROM Movie WHERE NAME IS LIKE ?1",nativeQuery = true)
+
+    @Query(value = "SELECT * FROM Movie WHERE name REGEXP ?1",nativeQuery = true)
+    Iterable<Movie> fingMoviesByCSVkeywors(String csvstringtosqlcommand);
 }
