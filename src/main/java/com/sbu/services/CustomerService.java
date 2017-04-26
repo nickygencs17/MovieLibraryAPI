@@ -6,7 +6,6 @@ import com.sbu.data.CustomerRepository;
 import com.sbu.data.entitys.Account;
 import com.sbu.data.entitys.Movie;
 import com.sbu.data.entitys.Order;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +21,9 @@ import static com.sbu.services.ResponseUtil.build200;
 /**
  * Not implmented:
  Customer:
- Movies available starring a particular actor or group of actors
+
+
+
  Personalized movie suggestion list
 
  Customers should also be able to:
@@ -134,17 +135,18 @@ public class CustomerService extends StorageService  {
     @RequestMapping(value = "/suggestionMovies/{customerID}", method = RequestMethod.GET)
     public Response getSuggestionsById(@PathVariable("customerID") String customerID) throws Exception {
         //JSONArray slideContent
-        JSONObject res = customerController.getSuggestions(customerID);
+        Set<Movie> res = customerController.getSuggestions(customerID);
         return build200(res);
 
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{movieID}", method = RequestMethod.POST)
-    public Response postRating(@PathVariable("movieID") String movieID) throws Exception {
+    public Response postRating(@PathVariable("movieID") String movieID,
+                               @RequestParam("rating") int rating)throws Exception {
         //JSONArray slideContent
-        JSONObject res = customerController.postRating(movieID);
-        return build200(res);
+        customerController.postRating(movieID,rating);
+        return build200("OK");
 
     }
 

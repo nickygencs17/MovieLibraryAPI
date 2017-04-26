@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 public class Movie {
 
     @Id
-    int ID;
+    Integer ID;
 
     @NotNull
     String name;
@@ -33,7 +33,7 @@ public class Movie {
 
     int numcopies;
 
-    public int getID() {
+    public Integer getID() {
         return ID;
     }
 

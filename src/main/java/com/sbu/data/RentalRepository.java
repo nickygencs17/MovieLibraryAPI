@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.transaction.Transactional;
-
+import java.util.List;
 
 
 @Transactional
@@ -17,7 +17,7 @@ public interface RentalRepository extends CrudRepository<Rental, Integer> {
 
 
     @Query(value = "SELECT MOVIEID FROM Rental WHERE ACCOUNTID= ?1",nativeQuery = true)
-    Iterable<String> findMovieIDsbyAccountID(String accountID);
+    List<String> findMovieIDsbyAccountID(String accountID);
 
     @Query(value = "SELECT ORDERID FROM Rental WHERE ACCOUNTID= ?1",nativeQuery = true)
     Iterable<Integer> findOrderIDsbyAccountID(String s);

@@ -1,6 +1,5 @@
 package com.sbu.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.sbu.data.CustomerRepository;
 import com.sbu.data.OrderRepository;
 import com.sbu.data.PersonRepository;
@@ -58,10 +57,6 @@ public class EmployeeController extends StorageController {
 
     }
 
-    public JsonNode getRecommendationList(String s) {
-        JsonNode node = null;
-        return node;
-    }
 
 
 }

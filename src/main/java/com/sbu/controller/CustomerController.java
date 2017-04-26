@@ -5,8 +5,8 @@ import com.sbu.data.entitys.Account;
 import com.sbu.data.entitys.Actor;
 import com.sbu.data.entitys.Movie;
 import com.sbu.data.entitys.Order;
+import com.sbu.exceptions.BadRequestException;
 import com.sbu.exceptions.ResourceNotFoundException;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +23,9 @@ public class CustomerController extends StorageController {
 
     @Autowired
     OrderRepository orderRepository;
+
+    @Autowired
+    CustomerRepository customerRepository;
 
     @Autowired
     MovieRepository movieRepository;
@@ -97,13 +100,6 @@ public class CustomerController extends StorageController {
 
     }
 
-    public JSONObject getSuggestions(String customerID) {
-        return new JSONObject();
-    }
-
-    public JSONObject postRating(String movieID) {
-        return new JSONObject();
-    }
 
     public Iterable<Movie> getMoviesByKeywords(List<String> keywordItems) {
         StringBuilder sb = new StringBuilder();
@@ -166,6 +162,22 @@ public class CustomerController extends StorageController {
         return elementCountMap;
     }
 
+    public boolean postRating(String movieID, int rating) throws BadRequestException {
+        Movie m =movieRepository.findOne(Integer.parseInt(movieID));
+        if(rating<1 || rating>5){
+            throw new BadRequestException();
+        }
+        int oldRating = m.getRating();
+        float newRatingfloat = ((oldRating+rating)/2);
+        int newRatingInt = (int)Math.floor(newRatingfloat + 0.5f);
+        m.setRating(newRatingInt);
+
+        movieRepository.save(m);
+
+
+        return true;
+
+    }
 }
 
 

@@ -1,10 +1,10 @@
 package com.sbu.services;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.sbu.controller.EmployeeController;
 import com.sbu.data.*;
 import com.sbu.data.entitys.Customer;
 import com.sbu.data.entitys.Employee;
+import com.sbu.data.entitys.Movie;
 import com.sbu.data.entitys.Order;
 import com.sbu.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static com.sbu.services.ResponseUtil.build200;
 import static com.sbu.services.ResponseUtil.build201;
@@ -27,6 +28,7 @@ import static com.sbu.services.ResponseUtil.build201;
 /**
  * Not implmented:
  Customer Representatives should be able to:
+
  Edit information for a customer
  Produce a list of movie suggestions for a given customer
 
@@ -135,18 +137,16 @@ public class EmployeeService extends StorageService {
         return build200(customers);
     }
 
-
-
-    //NOT IMPLMENTED
-
-
-
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/recommendation/{customerID}", method= RequestMethod.GET)
     public Response getRecomendations(@PathVariable("customerID") String customerID){
-        JsonNode info = employeeController.getRecommendationList(customerID);
+        Set<Movie> info = employeeController.getSuggestions(customerID);
         return build200(info);
     }
+
+
+
+
 
 
 

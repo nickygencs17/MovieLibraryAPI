@@ -1,15 +1,15 @@
 package com.sbu.controller;
 
-import com.sbu.data.AccountRepository;
-import com.sbu.data.MovieRepository;
-import com.sbu.data.OrderRepository;
+import com.sbu.data.*;
 import com.sbu.data.entitys.Account;
+import com.sbu.data.entitys.Customer;
 import com.sbu.data.entitys.Movie;
 import com.sbu.data.entitys.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,6 +27,14 @@ public class StorageController {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
+    RentalRepository rentalRepository;
+
+
 
     public Set<Movie> getMovies(Iterable<String>moiveids){
         Set<Movie> movies = new HashSet<>();
@@ -50,6 +58,32 @@ public class StorageController {
             accounts.add(accountRepository.findOne(Long.parseLong(accountid.toString())));
         }
         return accounts;
+    }
+
+    public Set<Movie> getSuggestions(String customerID) {
+        Customer customer = customerRepository.findOne(Long.parseLong(customerID));
+        Account account = accountRepository.findAccountByCustomer(customer.getCustomer().getSsn().toString());
+        List<String> movieIds = rentalRepository.findMovieIDsbyAccountID(account.getId().toString());
+
+        Set<String> types = new HashSet<>();
+
+        for(String movieid:movieIds){
+            Movie movie = movieRepository.findOne(Integer.parseInt(movieid));
+            types.add(movie.getType());
+        }
+
+        Iterable<Movie> allmovies = movieRepository.findAll();
+        Set<Movie> unseeMovies = new HashSet<>();
+
+        for(Movie m: allmovies){
+            if(!movieIds.contains(m.getID().toString())){
+                if(types.contains(m.getType())){
+                    unseeMovies.add(m);
+                }
+            }
+        }
+        return unseeMovies;
+
     }
 
 }
