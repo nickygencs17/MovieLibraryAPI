@@ -89,7 +89,7 @@ public class ManagerService extends StorageService {
     @RequestMapping(value = "/movie",method = RequestMethod.POST)
     public Response addMovie(@RequestBody @Valid Movie movie) throws IOException, ParseException, BadRequestException {
         Long movieNumber = movieRepository.count();
-        movie.setID(movieNumber.intValue());
+        movie.setID(movieNumber.intValue()+1);
         managerController.createMovie(movie);
 
         return build201("Created");

@@ -82,7 +82,7 @@ public class EmployeeService extends StorageService {
     public Response addOrder(@RequestBody Order order){
 
         Long orderNumber = orderRepository.count();
-        order.setId(orderNumber.intValue());
+        order.setId(orderNumber.intValue()+1);
         employeeController.createOrder(order);
 
         return build201(order.getId());
