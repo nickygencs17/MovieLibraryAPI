@@ -20,7 +20,7 @@ public interface RentalRepository extends CrudRepository<Rental, Integer> {
     List<String> findMovieIDsbyAccountID(String accountID);
 
     @Query(value = "SELECT ORDERID FROM Rental WHERE ACCOUNTID= ?1",nativeQuery = true)
-    Iterable<Integer> findOrderIDsbyAccountID(String s);
+    List<Integer> findOrderIDsbyAccountID(String s);
 
     @Query(value = "SELECT ACCOUNTID AS `value_occurrence` FROM Rental GROUP BY ACCOUNTID ORDER BY `value_occurrence` DESC LIMIT 5",
     nativeQuery = true)
@@ -32,4 +32,7 @@ public interface RentalRepository extends CrudRepository<Rental, Integer> {
 
     @Query(value="SELECT MovieId FROM Rental GROUP BY MovieId ORDER BY COUNT(*) DESC;",nativeQuery = true)
     Iterable<String> getMostRentedMovies();
+
+    @Query(value = "SELECT MovieID FROM Rental WHERE ORDERID= ?1", nativeQuery = true)
+    String getMoviebyOrderID(Integer orderid);
 }

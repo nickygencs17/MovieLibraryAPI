@@ -127,6 +127,13 @@ public class CustomerService extends StorageService  {
 
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value ="/currentlyHeldMovies/{customerID}", method= RequestMethod.GET)
+    public Response getHeldMovies(@PathVariable("customerID") String customerID) {
+        Set<Movie> res = customerController.getHeldMovies(customerID);
+        return build200(res);
+    }
+
 
 
 }

@@ -178,6 +178,28 @@ public class CustomerController extends StorageController {
         return true;
 
     }
+
+    public Set<Movie> getHeldMovies(String customerID) {
+        Account account = accountRepository.findAccountByCustomer(customerID);
+        List<Integer> orderIds = rentalRepository.findOrderIDsbyAccountID(account.getId().toString());
+        List<Integer> ordersNotReturned = orderRepository.getIdsOfNotreturned();
+        orderIds.retainAll(ordersNotReturned);
+
+        Set<String> moviesIds = new HashSet<>();
+
+        for(Integer orderid: orderIds) {
+           moviesIds.add(rentalRepository.getMoviebyOrderID(orderid));
+        }
+
+        Set<Movie> movies = new HashSet<>();
+        for(String movieid: moviesIds){
+            movies.add(movieRepository.findOne(Integer.parseInt(movieid)));
+        }
+
+        return movies;
+
+
+    }
 }
 
 
