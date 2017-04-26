@@ -23,6 +23,7 @@ import static com.sbu.services.ResponseUtil.build200;
  */
 
 @RestController
+@CrossOrigin
 public class LoginController {
 
     private static final Logger logger = Logger.getLogger(LoginController.class.getName());
