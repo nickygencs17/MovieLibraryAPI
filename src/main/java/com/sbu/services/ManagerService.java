@@ -94,7 +94,6 @@ public class ManagerService extends StorageService {
         }
         try{
             Integer.parseInt(movie.getDistrfee());
-            Long.parseLong(movie.getID().toString());
         }
         catch(Exception e){
             throw new BadRequestException();
@@ -215,6 +214,7 @@ public class ManagerService extends StorageService {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/editMovies", method = RequestMethod.PUT)
     public Response editMovie(@RequestBody Movie movie) throws Exception {
+
         managerController.editMovie(movie);
         return build200("Edit Okay");
     }

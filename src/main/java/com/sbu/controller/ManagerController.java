@@ -167,7 +167,7 @@ public class ManagerController extends StorageController {
 
     public void editMovie(Movie movie) {
 
-        Movie oldMovie = movieRepository.findOne(Integer.parseInt(movie.getName()));
+        Movie oldMovie = movieRepository.findOne(movie.getID());
         oldMovie.setRating(movie.getRating());
         oldMovie.setName(movie.getName());
         oldMovie.setDistrfee(movie.getDistrfee());
