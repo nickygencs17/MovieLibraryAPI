@@ -36,7 +36,7 @@ import static com.sbu.services.ResponseUtil.build201;
 
  *
  */
-
+@CrossOrigin
 @RestController
 @RequestMapping("/storage/manager")
 public class ManagerService extends StorageService {
@@ -89,6 +89,18 @@ public class ManagerService extends StorageService {
     @RequestMapping(value = "/movie",method = RequestMethod.POST)
     public Response addMovie(@RequestBody @Valid Movie movie) throws IOException, ParseException, BadRequestException {
         Long movieNumber = movieRepository.count();
+        if(movie.getRating()<0||movie.getRating()>5){
+            throw new BadRequestException();
+        }
+        try{
+            Integer.parseInt(movie.getDistrfee());
+            Long.parseLong(movie.getID().toString());
+        }
+        catch(Exception e){
+            throw new BadRequestException();
+        }
+
+
         movie.setID(movieNumber.intValue()+1);
         managerController.createMovie(movie);
 
