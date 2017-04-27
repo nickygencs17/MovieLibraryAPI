@@ -1,9 +1,6 @@
 package com.sbu.data.entitys;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 /**
  * Created by nicholasgenco on 4/6/17.
@@ -30,28 +27,46 @@ import javax.persistence.OneToOne;
 public class Rental {
 
 
-    @Id
-    int accountid;
+    public Rental(Account accountid, Employee employee, int orderid, Movie movie) {
+        this.accountid = accountid;
+        this.orderid = orderid;
+        this.employee = employee;
+        this.movie = movie;
+    }
 
-    @OneToOne
+    public Rental(){
+
+    }
+    @ManyToOne(targetEntity=Account.class)
+    @JoinColumn(name = "accountid")
+    Account accountid;
+
+    @ManyToOne(targetEntity=Employee.class)
     @JoinColumn(name = "custrepid")
     Employee  employee;
 
-    @OneToOne
-    @JoinColumn(name = "orderid")
-    Order order;
+    @Id
+    int orderid;
+
+    public int getOrderid() {
+        return orderid;
+    }
+
+    public void setOrderid(int orderid) {
+        this.orderid = orderid;
+    }
 
 
-    @OneToOne
+
+    @ManyToOne(targetEntity = Movie.class)
     @JoinColumn(name = "movieid")
     Movie movie;
 
-
-    public int getAccountid() {
+    public Account getAccountid() {
         return accountid;
     }
 
-    public void setAccountid(int accountid) {
+    public void setAccountid(Account accountid) {
         this.accountid = accountid;
     }
 
@@ -63,13 +78,6 @@ public class Rental {
         this.employee = employee;
     }
 
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 
     public Movie getMovie() {
         return movie;

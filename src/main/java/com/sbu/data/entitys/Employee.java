@@ -39,14 +39,17 @@ public class Employee {
     Person employee;
 
 
+
+
+
     public Employee(){
 
     }
 
-    public Employee(Long id, Date startdate, int hourlyrate) {
+    public Employee(Long id,Long ssn, Date startdate, int hourlyrate) {
 
         this.id = id;
-        this.ssn = id;
+        this.ssn = ssn;
         this.startdate=startdate;
         this.hourlyrate=hourlyrate;
     }

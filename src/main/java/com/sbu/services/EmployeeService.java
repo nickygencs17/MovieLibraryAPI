@@ -1,11 +1,9 @@
 package com.sbu.services;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.sbu.controller.EmployeeController;
 import com.sbu.data.*;
-import com.sbu.data.entitys.Customer;
-import com.sbu.data.entitys.Employee;
-import com.sbu.data.entitys.Movie;
-import com.sbu.data.entitys.Order;
+import com.sbu.data.entitys.*;
 import com.sbu.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,7 +54,14 @@ public class EmployeeService extends StorageService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private RentalRepository rentalRepository;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private MovieRepository movieRepository;
 
     private static final GrantedAuthority ROLE_EMPLOYEE = new SimpleGrantedAuthority("ROLE_EMPLOYEE");
     private static final GrantedAuthority ROLE_CUSTOMER = new SimpleGrantedAuthority("ROLE_CUSTOMER");
@@ -149,6 +154,22 @@ public class EmployeeService extends StorageService {
         return build200("Edit Okay");
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/rental", method = RequestMethod.POST)
+    public Response createRental(@RequestBody JsonNode node){
+
+        Account account = accountRepository.findOne(Long.parseLong(node.get("accountNumber").asText()));
+        Employee employee = employeeRepository.findOne(Long.parseLong(node.get("employeeID").asText()));
+        Order order = orderRepository.findOne(Integer.parseInt(node.get("orderNumber").asText()));
+        Movie movie = movieRepository.findOne(Integer.parseInt(node.get("movieID").asText()));
+
+
+        Rental rental = new Rental(account,employee,order.getId(),movie);
+        rental.setOrderid(order.getId());
+        rentalRepository.save(rental);
+
+        return build201("Created");
+    }
 
 
 

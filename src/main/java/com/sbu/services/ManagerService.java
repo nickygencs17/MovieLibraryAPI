@@ -70,11 +70,13 @@ public class ManagerService extends StorageService {
         if(!locationRepository.exists(employee.getEmployee().getLocation().getzipcode())){
             locationRepository.save(employee.getEmployee().getLocation());
         }
+        employee.setSsn(employee.getId());
         managerController.createEmployee(employee);
 
        if(userManager.userExists(employee.getId().toString())){
          throw new BadRequestException("SSN already exists");
         }
+
 
         List<GrantedAuthority> roles = new ArrayList<>();
         roles.add(ROLE_EMPLOYEE);
@@ -224,6 +226,7 @@ public class ManagerService extends StorageService {
         managerController.addActor(actor);
         return build201("OK Created");
     }
+
 
 
 
