@@ -229,6 +229,18 @@ public class ManagerService extends StorageService {
 
 
 
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/dump", method = RequestMethod.GET)
+    public Response dumpData() throws Exception {
+    String dump = "mysqldump -unewuser -ppassword nicksdb > file.sql";
+    String[] cmdarray = {"/bin/sh","-c", dump};
+    Process p = Runtime.getRuntime().exec(cmdarray);
+    if (p.waitFor() != 0) {
+      throw new RuntimeException();
+    }
+        return build201("OK Created");
+    }
+
 
 
 }
