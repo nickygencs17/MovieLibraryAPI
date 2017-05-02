@@ -119,10 +119,10 @@ public class CustomerService extends StorageService  {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/{movieID}", method = RequestMethod.POST)
-    public Response postRating(@PathVariable("movieID") String movieID,
-                               @RequestParam("rating") int rating)throws Exception {
-        customerController.postRating(movieID,rating);
+    @RequestMapping(method = RequestMethod.GET)
+    public Response postRating(@RequestParam("rating") String movieID,
+                               @RequestParam("movieID") String rating)throws Exception {
+        customerController.postRating(movieID,Integer.valueOf(rating));
         return build200("OK");
 
     }
