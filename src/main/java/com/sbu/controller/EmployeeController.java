@@ -94,7 +94,7 @@ public class EmployeeController extends StorageController {
                 throw new RuntimeException();
             }
             if(result) {
-                System.out.pricontln("DIR created");
+                System.out.println("DIR created");
             }
         }
 
