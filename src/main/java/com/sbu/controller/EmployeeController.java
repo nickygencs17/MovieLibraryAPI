@@ -6,9 +6,15 @@ import com.sbu.data.PersonRepository;
 import com.sbu.data.entitys.Account;
 import com.sbu.data.entitys.Customer;
 import com.sbu.data.entitys.Order;
+import com.sbu.data.entitys.Rental;
 import com.sbu.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by nicholasgenco on 4/10/17.
@@ -26,8 +32,11 @@ public class EmployeeController extends StorageController {
     @Autowired
     private PersonRepository personRepository;
 
-    public Order createOrder(Order order){
-        return orderRepository.save(order);
+    public Order createOrder(Order order) {
+        orderRepository.save(order);
+
+
+        return order;
     }
 
     public Customer createCustomer(Customer customer) {
@@ -67,5 +76,36 @@ public class EmployeeController extends StorageController {
             account.setType(type);
         }
 
+    }
+
+    public void printReciept(Order order, Rental rental) throws FileNotFoundException, UnsupportedEncodingException {
+        File orderDir = new File("orders");
+
+        // if the directory does not exist, create it
+        if (!orderDir.exists()) {
+            System.out.println("creating directory: " + orderDir.getName());
+            boolean result = false;
+
+            try{
+                orderDir.mkdir();
+                result = true;
+            }
+            catch(SecurityException se){
+                throw new RuntimeException();
+            }
+            if(result) {
+                System.out.pricontln("DIR created");
+            }
+        }
+
+        String filename = "OrderNumber_" + order.getId();
+
+        PrintWriter writer = new PrintWriter("orders/"+filename, "UTF-8");
+        writer.println("Order Number: "+ order.getId());
+        writer.println("OrderDate:" + order.getDatetime());
+        writer.println("AccountNumber: "+rental.getAccountid());
+        writer.println("Employee Number: "+rental.getEmployee());
+        writer.println("Movie Number: "+rental.getMovie());
+        writer.close();
     }
 }

@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.ws.rs.core.Response;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -88,7 +90,7 @@ public class EmployeeService extends StorageService {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/order",method = RequestMethod.POST)
-    public Response addOrder(@RequestBody Order order){
+    public Response addOrder(@RequestBody Order order) throws FileNotFoundException, UnsupportedEncodingException {
 
         Long orderNumber = orderRepository.count();
         order.setId(orderNumber.intValue()+1);
@@ -160,9 +162,9 @@ public class EmployeeService extends StorageService {
 
       @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/rental", method = RequestMethod.POST)
-    public Response createRental(@RequestBody JsonNode node){
+    public Response createRental(@RequestBody JsonNode node) throws FileNotFoundException, UnsupportedEncodingException {
 
-        Account account = accountRepository.findOne(Long.parseLong(node.get("accountNumber").asText()));
+        Account account = accountRepository.findAccountByCustomer(node.get("customerid").asText());
         Employee employee = employeeRepository.findOne(Long.parseLong(node.get("employeeID").asText()));
         Order order = orderRepository.findOne(Integer.parseInt(node.get("orderNumber").asText()));
         Movie movie = movieRepository.findOne(Integer.parseInt(node.get("movieID").asText()));
@@ -171,6 +173,8 @@ public class EmployeeService extends StorageService {
         Rental rental = new Rental(account,employee,order.getId(),movie);
         rental.setOrderid(order.getId());
         rentalRepository.save(rental);
+
+        employeeController.printReciept(order,rental);
 
         return build201("Created");
     }
