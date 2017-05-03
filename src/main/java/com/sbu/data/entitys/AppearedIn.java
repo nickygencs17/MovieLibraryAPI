@@ -16,15 +16,23 @@ import javax.persistence.*;
  ON UPDATE CASCADE )
  */
 @Entity
+@Table(name = "appearedin")
 public class AppearedIn {
 
     @Id
     int actorid;
 
-    @OneToOne
+    public AppearedIn() {
+    }
+
+    @ManyToOne
     @JoinColumn(name = "movieid")
     Movie movie;
 
+    public AppearedIn(int actorid, Movie movie) {
+        this.actorid = actorid;
+        this.movie = movie;
+    }
 
     public int getActorid() {
         return actorid;

@@ -1,6 +1,7 @@
 package com.sbu.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
 import com.sbu.controller.EmployeeController;
 import com.sbu.data.*;
 import com.sbu.data.entitys.*;
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -147,14 +151,14 @@ public class EmployeeService extends StorageService {
 
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/editCustomer", method = RequestMethod.PUT)
-    public Response editCustomer(@RequestBody Customer customer) throws Exception {
+    @RequestMapping(value = "/editCustomer/{type}", method = RequestMethod.PUT)
+    public Response editCustomer(@RequestBody Customer customer, @PathVariable("type") String type) throws Exception {
         //JSONArray slideContent
-        employeeController.editCustomer(customer);
+        employeeController.editCustomer(customer,type);
         return build200("Edit Okay");
     }
 
-    @ResponseStatus(HttpStatus.OK)
+      @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/rental", method = RequestMethod.POST)
     public Response createRental(@RequestBody JsonNode node){
 
@@ -167,6 +171,23 @@ public class EmployeeService extends StorageService {
         Rental rental = new Rental(account,employee,order.getId(),movie);
         rental.setOrderid(order.getId());
         rentalRepository.save(rental);
+
+        return build201("Created");
+    }
+
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/account", method = RequestMethod.POST)
+    public Response createAccount(@RequestBody JsonNode node) throws ParseException {
+
+        Long accountsnums = accountRepository.count();
+        accountsnums++;
+        DateFormat df = new StdDateFormat();
+        Date startDate = df.parse(node.get("dateopened").asText());
+        Customer customer = customerRepository.findOne(Long.parseLong(node.get("id").asText()));
+
+        accountRepository.save(new Account(accountsnums,startDate,node.get("type").asText(),customer));
+
 
         return build201("Created");
     }

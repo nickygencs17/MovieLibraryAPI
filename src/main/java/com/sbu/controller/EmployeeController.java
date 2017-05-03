@@ -3,6 +3,7 @@ package com.sbu.controller;
 import com.sbu.data.CustomerRepository;
 import com.sbu.data.OrderRepository;
 import com.sbu.data.PersonRepository;
+import com.sbu.data.entitys.Account;
 import com.sbu.data.entitys.Customer;
 import com.sbu.data.entitys.Order;
 import com.sbu.exceptions.ResourceNotFoundException;
@@ -58,7 +59,13 @@ public class EmployeeController extends StorageController {
     }
 
 
-    public void editCustomer(Customer customer) {
+    public void editCustomer(Customer customer, String type) {
+
         customerRepository.save(customer);
+        Account account =accountRepository.findAccountByCustomer(customer.getId().toString());
+        if(!account.getType().equals(type)){
+            account.setType(type);
+        }
+
     }
 }

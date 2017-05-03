@@ -3,6 +3,7 @@ package com.sbu.services;
 import com.sbu.controller.CustomerController;
 import com.sbu.data.AccountRepository;
 import com.sbu.data.CustomerRepository;
+import com.sbu.data.OrderRepository;
 import com.sbu.data.entitys.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,9 @@ public class CustomerService extends StorageService  {
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @GetMapping(path="/all")
     public @ResponseBody
@@ -78,7 +82,7 @@ public class CustomerService extends StorageService  {
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/orders/{customerID}/current", method= RequestMethod.GET)
-    public Response getCustomerOrdersByID(@PathVariable("customerID") String customerID) throws IOException {
+    public Response getCustomerOrdersByIDcurrent(@PathVariable("customerID") String customerID) throws IOException {
         Set<Order> info = customerController.getCustomerOrdersById(customerID);
         return build200(info);
     }
@@ -133,6 +137,8 @@ public class CustomerService extends StorageService  {
         Set<Movie> res = customerController.getHeldMovies(customerID);
         return build200(res);
     }
+
+
 
 
 

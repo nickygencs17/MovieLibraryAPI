@@ -28,7 +28,7 @@ public class Actor {
 
     int age;
 
-    char sex;
+    String sex;
 
     int rating;
 
@@ -57,11 +57,11 @@ public class Actor {
         this.age = age;
     }
 
-    public char getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(char sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 

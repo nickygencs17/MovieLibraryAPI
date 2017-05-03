@@ -1,12 +1,11 @@
 package com.sbu.services;
 
 import com.sbu.controller.ManagerController;
+import com.sbu.data.ActorRepository;
+import com.sbu.data.AppearedInRepository;
 import com.sbu.data.LocationRepository;
 import com.sbu.data.MovieRepository;
-import com.sbu.data.entitys.Actor;
-import com.sbu.data.entitys.Customer;
-import com.sbu.data.entitys.Employee;
-import com.sbu.data.entitys.Movie;
+import com.sbu.data.entitys.*;
 import com.sbu.exceptions.BadRequestException;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static com.sbu.services.ResponseUtil.build200;
 import static com.sbu.services.ResponseUtil.build201;
@@ -53,6 +50,13 @@ public class ManagerService extends StorageService {
 
     @Autowired
     private LocationRepository locationRepository;
+
+
+    @Autowired
+    private ActorRepository actorRepository;
+
+    @Autowired
+    private AppearedInRepository appearedInRepository;
 
 
     private static final GrantedAuthority ROLE_EMPLOYEE = new SimpleGrantedAuthority("ROLE_EMPLOYEE");
@@ -88,8 +92,30 @@ public class ManagerService extends StorageService {
 
 
     @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value = "/actor",method = RequestMethod.POST)
+    public Response addActor(@RequestBody @Valid Actor actor, @RequestParam("movieIDCSV") String movieIDCSV) throws IOException, ParseException, BadRequestException {
+        Long actorNumber = actorRepository.count();
+        actorNumber++;
+        actor.setId(Integer.parseInt(actorNumber.toString()));
+        actorRepository.save(actor);
+
+        List<String> movieIDs = Arrays.asList(movieIDCSV.split("\\s*,\\s*"));
+        Set<Movie> movies = new HashSet<>();
+
+        for (String movieId: movieIDs){
+            movies.add(movieRepository.findOne(Integer.parseInt(movieId)));
+
+        }
+        for( Movie m: movies){
+            if(m!=null)
+            appearedInRepository.save(new AppearedIn(actor.getId(),m));
+        }
+
+        return build201("Created");
+    }
+    @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/movie",method = RequestMethod.POST)
-    public Response addMovie(@RequestBody @Valid Movie movie) throws IOException, ParseException, BadRequestException {
+    public Response addMovie(@RequestBody @Valid Movie movie, @RequestParam(name ="actorIDCSV", required = false) String actorIDCSV ) throws IOException, ParseException, BadRequestException {
         Long movieNumber = movieRepository.count();
         if(movie.getRating()<0||movie.getRating()>5){
             throw new BadRequestException();
@@ -105,9 +131,23 @@ public class ManagerService extends StorageService {
         movie.setID(movieNumber.intValue()+1);
         managerController.createMovie(movie);
 
+        if(actorIDCSV !=null){
+
+            List<String> actorIDs = Arrays.asList(actorIDCSV .split("\\s*,\\s*"));
+            Set<Actor> actors = new HashSet<>();
+
+            for (String actorId: actorIDs){
+                actors.add(actorRepository.findOne(Long.parseLong(actorId)));
+
+            }
+            for( Actor a: actors){
+                if(a!=null)
+                    appearedInRepository.save(new AppearedIn(a.getId(),movie));
+            }
+        }
+
         return build201("Created");
     }
-
 
 
 
@@ -219,12 +259,6 @@ public class ManagerService extends StorageService {
 
         managerController.editMovie(movie);
         return build200("Edit Okay");
-    }
-    @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/actor", method = RequestMethod.POST)
-    public Response addActor(@RequestBody Actor actor) throws Exception {
-        managerController.addActor(actor);
-        return build201("OK Created");
     }
 
 

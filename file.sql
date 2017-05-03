@@ -39,7 +39,7 @@ CREATE TABLE `Account` (
 
 LOCK TABLES `Account` WRITE;
 /*!40000 ALTER TABLE `Account` DISABLE KEYS */;
-INSERT INTO `Account` VALUES (1,'2006-10-01','unlimited-2',444444444),(2,'2006-10-15','limited',222222222);
+INSERT INTO `Account` VALUES (1,'2006-10-01','unlimited-2',444444444),(2,'2006-10-15','limited',222222222),(3,'1111-11-10','Unlimited-3',8790123);
 /*!40000 ALTER TABLE `Account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,7 +66,7 @@ CREATE TABLE `Actor` (
 
 LOCK TABLES `Actor` WRITE;
 /*!40000 ALTER TABLE `Actor` DISABLE KEYS */;
-INSERT INTO `Actor` VALUES (1,'Al Pacino',63,'M',5),(2,'Tim Robbins',53,'M',2);
+INSERT INTO `Actor` VALUES (1,'Al Pacino',63,'M',5),(2,'Tim Robbins',53,'M',2),(3,'Nick',5,'M',5),(4,'string',0,'m',0),(5,'Nick',12,'f',4),(6,'Nick',66,'j',690);
 /*!40000 ALTER TABLE `Actor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,7 +93,7 @@ CREATE TABLE `AppearedIn` (
 
 LOCK TABLES `AppearedIn` WRITE;
 /*!40000 ALTER TABLE `AppearedIn` DISABLE KEYS */;
-INSERT INTO `AppearedIn` VALUES (1,'1'),(2,'1'),(1,'3');
+INSERT INTO `AppearedIn` VALUES (1,'1'),(2,'1'),(4,'1'),(5,'1'),(6,'2'),(1,'3');
 /*!40000 ALTER TABLE `AppearedIn` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,7 +120,7 @@ CREATE TABLE `Customer` (
 
 LOCK TABLES `Customer` WRITE;
 /*!40000 ALTER TABLE `Customer` DISABLE KEYS */;
-INSERT INTO `Customer` VALUES (345,'33',3,'33'),(3208,'22',2,'22'),(111111111,'syang@cs.sunysb.edu',1,'1234-5678-1234-5678'),(222222222,'vicdu@cs.sunysb.edu',1,'5678-1234-5678-1234'),(333333333,'jsmith@ic.sunysb.edu',1,'2345-6789-2345-6789'),(444444444,'pml@cs.sunysb.edu',1,'6789-2345-6789-2345');
+INSERT INTO `Customer` VALUES (32,'nick_genco@hotmail.com',3,'123456789'),(90,'1',1,'90'),(120,'99',4,'99'),(345,'33',3,'33'),(1010,'1',1,'10101'),(3208,'nickygencs@gmail.com',2,'2'),(5557,'44',4,'44'),(100087,'yesh',1,'399'),(123345,'nickygencs@gmail.com',750,'099999'),(8790123,'newemial',1,'12345'),(98567654,'33',33,'22'),(111111111,'syang@cs.sunysb.edu',1,'1234-5678-1234-5678'),(222222222,'vicdu@cs.sunysb.edu',1,'5678-1234-5678-1234'),(333333333,'jsmith@ic.sunysb.edu',1,'2345-6789-2345-6789'),(444444444,'pml@cs.sunysb.edu',1,'6789-2345-6789-2345');
 /*!40000 ALTER TABLE `Customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,7 +173,7 @@ CREATE TABLE `Location` (
 
 LOCK TABLES `Location` WRITE;
 /*!40000 ALTER TABLE `Location` DISABLE KEYS */;
-INSERT INTO `Location` VALUES (0,'string','string'),(67,'sd','sd'),(77,'77','77'),(90,'kingq','he'),(10510,'Briarcliff manor','NY'),(10954,'nanuet','ny'),(11790,'Stony Brook','NY'),(11794,'Stony Brook','NY'),(93536,'Los Angeles','CA');
+INSERT INTO `Location` VALUES (0,'string','string'),(1,'pass','pass'),(7,'67','777'),(27,'77','nh'),(67,'sd','sd'),(77,'77','77'),(90,'kingq','he'),(10510,'Briarcliff manor','NY'),(10876,'nhi','ny'),(10954,'nanuet','ny'),(11790,'Stony Brook','NY'),(11794,'Stony Brook','NY'),(12345,'yes','yes'),(12378,'nanueyt','ny'),(22222,'nanuet','ny'),(93536,'Los Angeles','CA'),(783208,'nanyetr','ny');
 /*!40000 ALTER TABLE `Location` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,7 +201,7 @@ CREATE TABLE `Movie` (
 
 LOCK TABLES `Movie` WRITE;
 /*!40000 ALTER TABLE `Movie` DISABLE KEYS */;
-INSERT INTO `Movie` VALUES ('1','The Godfather','Drama',5,'10000',3),('2','Shawshank Redemption','Drama',4,'1000',2),('3','Borat','Comedy',3,'500',1),('4','Nicksmovie','comedy',5,'77',3);
+INSERT INTO `Movie` VALUES ('1','The Godfather','Drama',5,'10000',3),('2','Shawshank Redemption','Drama',4,'1000',2),('3','Borat','Comedy',3,'500',1),('4','Nicksmovie','comedy',5,'77',3),('5','NewMovie1','Comedy',5,'51',67),('6','new Movie g','67',5,'30',5),('7','new Movie g','67',5,'30',5);
 /*!40000 ALTER TABLE `Movie` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -284,7 +284,7 @@ CREATE TABLE `Person` (
 
 LOCK TABLES `Person` WRITE;
 /*!40000 ALTER TABLE `Person` DISABLE KEYS */;
-INSERT INTO `Person` VALUES (0,'string','string','string',0,'string','string'),(77,'genc','nick','777',77,'77','77'),(80,'genco','Nick','lolo',90,'80','90'),(97,'genco','nick','56 green',10954,'765','yes'),(345,'sf','Nick','4r',67,'34','genco'),(3208,'Genco','Nicholas','32 briarcliff drive',10510,'76','3208'),(111111111,'Yang','Shang','123 Success Street',11790,'5166328959',''),(123456789,'Smith','David','123 College road',11790,'5162152345',''),(222222222,'Du','Victor','456 Fortune Road',11790,'5166324360',''),(333333333,'Smith','John','789 Peace Blvd',93536,'3154434321',''),(444444444,'Philip','Lewis','135 Knowledge Lane',11794,'5166668888',''),(789123456,'Warren','David','456 Sunken Street',11794,'6316329987','');
+INSERT INTO `Person` VALUES (0,'string','string','string',0,'string','string'),(32,'nwef','jim','g366',27,'34','yes'),(77,'genc','nick','777',77,'77','77'),(80,'genco','Nick','lolo',90,'80','90'),(90,'genco','nick','passs',1,'90','pass'),(97,'genco','nick','56 green',10954,'765','yes'),(120,'Genco','Nick','123 yesh yes',22222,'189','yes'),(345,'sf','Nick','4r',67,'34','genco'),(1010,'custy','newcusty','67',12345,'4344','yeshhhhh'),(3208,'genop','newcust','7666',12345,'8457299778','yes'),(5557,'genco','Nick','q',783208,'4','yesh'),(100087,'genco','Miock','677 yelp',10876,'167','yes'),(123345,'nh','ji','nnnn',7,'8457299777','yes'),(8790123,'genco','Miock','677 yelp',10876,'167','yes'),(98567654,'genco','nick','59 green',12378,'333','pass'),(111111111,'Yang','Shang','123 Success Street',11790,'5166328959',''),(123456789,'Smith','David','123 College road',11790,'5162152345',''),(222222222,'Du','Victor','456 Fortune Road',11790,'5166324360',''),(333333333,'Smith','John','789 Peace Blvd',93536,'3154434321',''),(444444444,'Philip','Lewis','135 Knowledge Lane',11794,'5166668888',''),(789123456,'Warren','David','456 Sunken Street',11794,'6316329987','');
 /*!40000 ALTER TABLE `Person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -330,4 +330,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-28  0:03:59
+-- Dump completed on 2017-05-02 19:31:04
