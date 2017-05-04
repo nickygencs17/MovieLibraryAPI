@@ -206,6 +206,8 @@ public class ManagerService extends StorageService {
     @RequestMapping(value = "/movies/type/{movieType}",method= RequestMethod.GET)
     public Response getMoviesByMovieType(@PathVariable("movieType") String movieType) throws IOException {
         Iterable<Movie> movies= managerController.getMoviesByMovieType(movieType);
+
+
         return build200(movies);
     }
     @ResponseStatus(HttpStatus.OK)

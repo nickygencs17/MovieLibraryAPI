@@ -56,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         users.put("admin", "pass,ROLE_ADMIN,enabled");
         users.put("employee","pass,ROLE_EMPLOYEE,enabled");
         users.put("customer","pass,ROLE_CUSTOMER,enabled");
+        users.put("222222222","pass,ROLE_CUSTOMER,enabled");
 
         return new InMemoryUserDetailsManager(users);
     }

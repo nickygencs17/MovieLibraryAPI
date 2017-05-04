@@ -28,6 +28,7 @@ import java.util.Set;
 
 import static com.sbu.services.ResponseUtil.build200;
 import static com.sbu.services.ResponseUtil.build201;
+import static com.sbu.services.ResponseUtil.build400;
 
 /**
  *
@@ -110,13 +111,13 @@ public class EmployeeService extends StorageService {
         employeeController.createCustomer(customer);
 
 
-        if(userManager.userExists(customer.getEmail())){
+        if(userManager.userExists(customer.getCustomer().getSsn().toString())){
             throw new BadRequestException();
         }
 
         List<GrantedAuthority> roles = new ArrayList<>();
         roles.add(ROLE_CUSTOMER);
-        userManager.createUser(new User(customer.getEmail(), customer.getCustomer().getPassword(), roles));
+        userManager.createUser(new User(customer.getCustomer().getSsn().toString(), customer.getCustomer().getPassword(), roles));
 
         return build201(customer.getCustomer().getSsn());
     }
@@ -169,7 +170,10 @@ public class EmployeeService extends StorageService {
         Order order = orderRepository.findOne(Integer.parseInt(node.get("orderNumber").asText()));
         Movie movie = movieRepository.findOne(Integer.parseInt(node.get("movieID").asText()));
 
-
+        if (employee == null || movie == null || account ==null){
+            orderRepository.delete(order);
+            return build400("BAD REQUEST");
+        }
         Rental rental = new Rental(account,employee,order.getId(),movie);
         rental.setOrderid(order.getId());
         rentalRepository.save(rental);

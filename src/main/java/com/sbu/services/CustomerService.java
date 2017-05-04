@@ -4,9 +4,12 @@ import com.sbu.controller.CustomerController;
 import com.sbu.data.AccountRepository;
 import com.sbu.data.CustomerRepository;
 import com.sbu.data.OrderRepository;
-import com.sbu.data.entitys.*;
+import com.sbu.data.entitys.Account;
+import com.sbu.data.entitys.Movie;
+import com.sbu.data.entitys.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.core.Response;
@@ -16,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 import static com.sbu.services.ResponseUtil.build200;
+import static com.sbu.services.ResponseUtil.buildwhatevr;
 
 /**
  * Not implmented:
@@ -53,6 +57,10 @@ public class CustomerService extends StorageService  {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/moviesById/{customerID}", method= RequestMethod.GET)
     public Response getCustomerMoviesByID(@PathVariable("customerID") String customerID) throws IOException {
+        if (!checkCustomer(customerID)) {
+            return buildwhatevr();
+        }
+
         Set<Movie> info = customerController.getCustomerMoviesById(customerID);
         return build200(info);
     }
@@ -69,6 +77,10 @@ public class CustomerService extends StorageService  {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/queue/{customerID}", method= RequestMethod.GET)
     public Response getCustomerQueueByID(@PathVariable("customerID") String customerID) throws IOException {
+        if (!checkCustomer(customerID)) {
+            return buildwhatevr();
+        }
+
         Iterable<Movie> movies= customerController.getCustomerQueueById(customerID);
         return build200(movies);
     }
@@ -76,6 +88,10 @@ public class CustomerService extends StorageService  {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/account/{customerID}", method= RequestMethod.GET)
     public Response getCustomerAccountByID(@PathVariable("customerID") String customerID) throws IOException {
+        if (!checkCustomer(customerID)) {
+            return buildwhatevr();
+        }
+
         Account info = customerController.getCustomerAccountById(customerID);
         return build200(info);
     }
@@ -83,6 +99,10 @@ public class CustomerService extends StorageService  {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/orders/{customerID}/current", method= RequestMethod.GET)
     public Response getCustomerOrdersByIDcurrent(@PathVariable("customerID") String customerID) throws IOException {
+        if (!checkCustomer(customerID)) {
+            return buildwhatevr();
+        }
+
         Set<Order> info = customerController.getCustomerOrdersById(customerID);
         return build200(info);
     }
@@ -117,6 +137,9 @@ public class CustomerService extends StorageService  {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/suggestionMovies/{customerID}", method = RequestMethod.GET)
     public Response getSuggestionsById(@PathVariable("customerID") String customerID) throws Exception {
+        if (!checkCustomer(customerID)) {
+            return buildwhatevr();
+        }
         Set<Movie> res = customerController.getSuggestions(customerID);
         return build200(res);
 
@@ -134,10 +157,26 @@ public class CustomerService extends StorageService  {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value ="/currentlyHeldMovies/{customerID}", method= RequestMethod.GET)
     public Response getHeldMovies(@PathVariable("customerID") String customerID) {
+
+
+        if (!checkCustomer(customerID)) {
+            return buildwhatevr();
+        }
+
+
         Set<Movie> res = customerController.getHeldMovies(customerID);
         return build200(res);
     }
 
+
+    public boolean checkCustomer(String customerID){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        if(username.equals(customerID)||username.equals("customer")){
+            return true;
+        }
+
+        return false;
+    }
 
 
 

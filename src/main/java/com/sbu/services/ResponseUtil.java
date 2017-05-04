@@ -38,5 +38,9 @@ public class ResponseUtil {
 
     }
 
+    public static Response buildwhatevr(){
+        return Response.status(412).build();
+    }
+
 
 }

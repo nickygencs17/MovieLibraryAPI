@@ -37,6 +37,9 @@ public class ManagerController extends StorageController {
     @Autowired
     ActorRepository actorRepository;
 
+    @Autowired
+    LocationRepository locationRepository;
+
 
     public Employee createEmployee(Employee employee) {
         personRepository.save(employee.getEmployee());
@@ -162,7 +165,29 @@ public class ManagerController extends StorageController {
     }
 
     public void editEmployee(Employee employee) {
-        employeeRepository.save(employee);
+
+        Location location = locationRepository.findOne(employee.getEmployee().getLocation().getzipcode());
+        if (location==null){
+            Location newLocation = new Location(employee.getEmployee().getLocation().getzipcode(),
+                    employee.getEmployee().getLocation().getCity(),
+                    employee.getEmployee().getLocation().getState());
+                locationRepository.save(newLocation);
+        }
+        Person person = personRepository.findOne(Long.parseLong(employee.getId().toString()));
+        person.setLocation(locationRepository.findOne(employee.getEmployee().getLocation().getzipcode()));
+        person.setAddress(employee.getEmployee().getAddress());
+        person.setFirstname(employee.getEmployee().getFirstname());
+        person.setLastname(employee.getEmployee().getLastname());
+        person.setPassword(employee.getEmployee().getPassword());
+        person.setTelephone(employee.getEmployee().getTelephone());
+        personRepository.save(person);
+
+        Employee oldEmployee = employeeRepository.findOne(employee.getId());
+        oldEmployee.setHourlyrate(employee.getHourlyrate());
+        oldEmployee.setStartdate(employee.getStartdate());
+        oldEmployee.setEmployee(person);
+
+        employeeRepository.save(oldEmployee);
     }
 
     public void editMovie(Movie movie) {

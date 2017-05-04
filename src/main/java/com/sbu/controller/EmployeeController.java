@@ -1,12 +1,10 @@
 package com.sbu.controller;
 
 import com.sbu.data.CustomerRepository;
+import com.sbu.data.LocationRepository;
 import com.sbu.data.OrderRepository;
 import com.sbu.data.PersonRepository;
-import com.sbu.data.entitys.Account;
-import com.sbu.data.entitys.Customer;
-import com.sbu.data.entitys.Order;
-import com.sbu.data.entitys.Rental;
+import com.sbu.data.entitys.*;
 import com.sbu.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,6 +29,9 @@ public class EmployeeController extends StorageController {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    public LocationRepository locationRepository;
 
     public Order createOrder(Order order) {
         orderRepository.save(order);
@@ -70,10 +71,34 @@ public class EmployeeController extends StorageController {
 
     public void editCustomer(Customer customer, String type) {
 
-        customerRepository.save(customer);
+        Location location = locationRepository.findOne(customer.getCustomer().getLocation().getzipcode());
+        if (location==null){
+            Location newLocation = new Location(customer.getCustomer().getLocation().getzipcode(),
+                    customer.getCustomer().getLocation().getCity(),
+                    customer.getCustomer().getLocation().getState());
+            locationRepository.save(newLocation);
+        }
+        Person person = personRepository.findOne(Long.parseLong(customer.getId().toString()));
+        person.setLocation(locationRepository.findOne(customer.getCustomer().getLocation().getzipcode()));
+        person.setAddress(customer.getCustomer().getAddress());
+        person.setFirstname(customer.getCustomer().getFirstname());
+        person.setLastname(customer.getCustomer().getLastname());
+        person.setPassword(customer.getCustomer().getPassword());
+        person.setTelephone(customer.getCustomer().getTelephone());
+        personRepository.save(person);
+
+        Customer oldCustomer = customerRepository.findOne(customer.getId());
+        oldCustomer.setEmail(customer.getEmail());
+        oldCustomer.setRating(customer.getRating());
+        oldCustomer.setCreditcardnumber(customer.getCreditcardnumber());
+        oldCustomer.setCustomer(person);
+
+        customerRepository.save(oldCustomer);
+
         Account account =accountRepository.findAccountByCustomer(customer.getId().toString());
         if(!account.getType().equals(type)){
             account.setType(type);
+            accountRepository.save(account);
         }
 
     }
